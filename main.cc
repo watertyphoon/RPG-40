@@ -8,6 +8,9 @@
 #include <cmath>
 #include <string>
 #include "/public/colors.h"
+#include <thread>
+#include < limits>
+#include <chrono>
 //add dictionary later
 
 using namespace std;
@@ -116,7 +119,68 @@ void puzzleWordle() {
 		attempts = attempts + 1;
 	}
 }
+//// utlities///
+void printSlow(cont string& s, int ms_per_char) { for (char c : s) {cout << c << flush; if (ms_per_char > 0 && ! isspace(static_cast < unsigned char >(c))) {this_thread::sleep_for(chrono::milliseconds(ms_per_char));
+}
+	}
+		}
+
+/// enter button
+ void pauseEnter() { cout "\n(Press Enter) ";
+	 cin.ignore(numeric_limits<streamsize>::max(), '\n'); }
+
+
+	 /// valid inputs 
+	 int readInt( int lo, int hi) { while (true) { cout << "> ";
+		 int x;
+		 if (cin >> x && x >= lo && x <= hi) {cin.ignore(numeric_limits<streamsize>::max(),'\n');
+			 return x;
+		 }
+		 
+	 cout << "Please enter number from " << lo << " to " << hi << ".\n";
+	 cin.clear();
+	 cin.ignore(numeric_limits<streamsize>::max(),'\n');
+	 }
+	 }
+///Read a non-empty line
+string readLineNonEmpty(cont string& prompt) { while (true) {while (true) { cout << prompt;
+	string s;
+	if(!getline(cin,s)) return "Player";
+	// trim spaces
+	size_t a = s.find_first_not_of(" \t\r\n");
+	size_t b = s.find_last_not_of(" \t\r\n");
+	if (a != strong::npos) { return s.substr(a, b - a + 1);
+	} cout << "please enter something .\n";
+}
+
+////Data model (player info "class 'difficulty"
+
+class RPG {
+	public:
+	void run () { bool running = true; 
+		while (running) { clearScreen();
+			banner();
+			cout << " 1) New Game\n";
+			cout << " 2) Continue\n";
+			cout << " 3) options\n";
+			cout << " 4) credits\n";
+			cout << " 5) Exit\n";
+			int c = readInt(1,5);
+			switch (c) {
+				case 1: newGame(); break;
+				case 2: continueGame(); break;
+				case 3: optinousMenus(); break;
+				case 4: credits (); break;
+				case 5: running = false; break;
+				}
+		}
+		cout << "\nFarewell, adventure
+
+ 
+
+
 
 int main() {
+
 	puzzleWordle();
 }
