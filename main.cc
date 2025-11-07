@@ -174,7 +174,7 @@ class RPG {
 				case 5: running = false; break;
 				}
 		}
-		cout << "\nFarewell, adventure
+		cout << "\nFarewell, adventure"
 
  
 
