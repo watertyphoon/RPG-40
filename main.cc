@@ -13,63 +13,355 @@
 #include <string>
 #include <cctype>
 //add dictionary later
-
 using namespace std;
 
-class Character {
+//Banished Knight
+class Knight {
   private:
+	bool isAlive;
+	string name; //player name
+	const string className;
+	string characterSymbol;
+	int heavyAtk;
+	int lightAtk;
+	int baseAtk;
 	int hp;
-	int maxHp;
+	int maxHP; //to keep track of max hp so healing potions dont pass set max hp
+	int def; // val incoming attacks are reduced by
+	int spd; //aka intitive
+	int mp;  //mana for attacks
+	int maxMP;
   public:
-	//Public data
-	string name = "Among us";
-	string className = "Gambler";
-	int x, y;
-	int def;
-	int spd;
-	//Getters
+	Knight(string playerName) {
+		bool isAlive = true;
+		string name = playerName;
+		const string className = "Knight";
+		string characterSymbol = "K";
+		int heavyAtk = 30;
+		int lightAtk = 15;
+		int baseAtk = 5;
+		int hp = 150;
+		int maxHP = hp;
+		int def = 3;
+		int spd = 3;
+		int mp = 100;
+		int maxMP = mp;
+	}
+	void setName(string newName) {
+		name = newName;
+	}
+	void setHeavyAtk(int newHeavyAtk) {
+		heavyAtk = newHeavyAtk;
+	}
+	void setLightAtk(int newLightAtk) {
+		lightAtk = newLightAtk;
+	}
+	void setHP(int newHP) {
+		hp = newHP;
+	}
+	void setMaxHP(int newMaxHP) {
+		maxHP = newMaxHP;
+	}
+	void setDef(int newDef) {
+		def = newDef;
+	}
+	void setSpd(int newSpd) {
+		spd = newSpd;
+	}
+	void setMP(int newMP) {
+		mp = newMP;
+	}
+	void setMaxMP(int newMaxMP) {
+		maxMP = newMaxMP;
+	}
+	string getName() const {
+		return name;
+	}
+	string getClassName() {
+		return className;
+	}
+	int getHeavyAtk() {
+		return heavyAtk;
+	}
+	int getLightAtk() {
+		return lightAtk;
+	}
+	int getBaseAtk() {
+		return baseAtk;
+	}
 	int getHP() {
 		return hp;
 	}
-	int getMaxHp() {
-		return maxHp;
+	int getMaxHP() {
+		return maxHP;
 	}
-	//Setters
-	void setHP(int newHp, bool ignoreMax = false) {
-		hp = newHp;
-		if (hp > maxHp && !ignoreMax) {
-			hp = maxHp;
+	int getDef() {
+		return def;
+	}
+	int getSpd() {
+		return spd;
+	}
+	int getMP() {
+		return mp;
+	}
+	int getMaxMP() {
+		return maxMP;
+	}
+	bool heavyAtkMP() { //check if you have enough mana to do the attack
+		if (mp - 10 >= 0) {
+			mp -= 10;
+			return true;
 		}
+		return false;
 	}
-	void setMaxHp(int newMax) {
-		maxHp = newMax;
-		if (hp > maxHp) {
-			hp = maxHp;
+	bool lightAtkMP() {
+		if (mp - 6 >= 0) {
+			mp -= 6;
+			return true;
 		}
+		return false;
 	}
-
-	//Methods
-	void hurt(int damage, bool ignoreMax = false) { //Yes you can deal negative to heal the character.
+	void hurt(int damage) {
 		hp -= damage;
-		if (hp > maxHp && !ignoreMax) {
-			hp = maxHp;
+		if (hp <= 0) {
+			isAlive = false; //needs to be implemented after fighting mechanic
+			// will just stop gameplay output "YOU DIED! GAME OVER" and quit the game
 		}
-	}
-	bool isDead() {
-		return hp < 0;
-	}
-
-	//Consturcter thing.
-	Character(int health = 100, string itsName = "NO NAME", int posX = -1, int  posY = -1) {
-		maxHp = health;
-		hp = maxHp;
-		name = itsName;
-		x = posX;
-		y = posY;
 	}
 };
 
-//lets say the character class has light attack of 5
+//Shadow Mage
+class Mage {
+  private:
+	bool isAlive;
+	string name; //player name
+	const string className;
+	string characterSymbol;
+	int heavyAtk;
+	int lightAtk;
+	int baseAtk;
+	int hp;
+	int maxHP; //to keep track of max hp so healing potions dont pass set max hp
+	int def; // val incoming attacks are reduced by
+	int spd; //aka intitive
+	int mp;  //mana for attacks
+	int maxMP;
+  public:
+	Mage(string playerName) {
+		bool isAlive = true;
+		string name = playerName;
+		const string className = "Mage";
+		string characterSymbol = "M";
+		int heavyAtk = 40;
+		int lightAtk = 20;
+		int baseAtk = 5;
+		int hp = 100;
+		int maxHP = hp;
+		int def = 2;
+		int spd = 2;
+		int mp = 150;
+		int maxMP = mp;
+	}
+	void setName(string newName) {
+		name = newName;
+	}
+	void setHeavyAtk(int newHeavyAtk) {
+		heavyAtk = newHeavyAtk;
+	}
+	void setLightAtk(int newLightAtk) {
+		lightAtk = newLightAtk;
+	}
+	void setHP(int newHP) {
+		hp = newHP;
+	}
+	void setMaxHP(int newMaxHP) {
+		maxHP = newMaxHP;
+	}
+	void setDef(int newDef) {
+		def = newDef;
+	}
+	void setSpd(int newSpd) {
+		spd = newSpd;
+	}
+	void setMP(int newMP) {
+		mp = newMP;
+	}
+	void setMaxMP(int newMaxMP) {
+		maxMP = newMaxMP;
+	}
+	string getName() const {
+		return name;
+	}
+	string getClassName() {
+		return className;
+	}
+	int getHeavyAtk() {
+		return heavyAtk;
+	}
+	int getLightAtk() {
+		return lightAtk;
+	}
+	int getBaseAtk() {
+		return baseAtk;
+	}
+	int getHP() {
+		return hp;
+	}
+	int getMaxHP() {
+		return maxHP;
+	}
+	int getDef() {
+		return def;
+	}
+	int getSpd() {
+		return spd;
+	}
+	int getMP() {
+		return mp;
+	}
+	int getMaxMP() {
+		return maxMP;
+	}
+	bool heavyAtkMP() { //check if you have enough mana to do the attack
+		if (mp - 20 >= 0) {
+			mp -= 20;
+			return true;
+		}
+		return false;
+	}
+	bool lightAtkMP() {
+		if (mp - 8 >= 0) {
+			mp -= 8;
+			return true;
+		}
+		return false;
+	}
+	void hurt(int damage) {
+		hp -= damage;
+		if (hp <= 0) {
+			isAlive = false; //needs to be implemented after fighting mechanic
+			// will just stop gameplay output "YOU DIED! GAME OVER" and quit the game
+		}
+	}
+};
+
+//Puppet
+class Puppet {
+  private:
+	bool isAlive;
+	string name; //player name
+	const string className;
+	string characterSymbol;
+	int heavyAtk;
+	int lightAtk;
+	int baseAtk;
+	int hp;
+	int maxHP; //to keep track of max hp so healing potions dont pass set max hp
+	int def; // val incoming attacks are reduced by
+	int spd; //aka intitive
+	int mp;  //mana for attacks
+	int maxMP;
+  public:
+	Puppet(string playerName) {
+		bool isAlive = true;
+		string name = playerName;
+		const string className = "Puppet";
+		string characterSymbol = "P";
+		int heavyAtk = 25;
+		int lightAtk = 12;
+		int baseAtk = 5;
+		int hp = 120;
+		int maxHP = hp;
+		int def = 3;
+		int spd = 4;
+		int mp = 120;
+		int maxMP = mp;
+	}
+	void setName(string newName) {
+		name = newName;
+	}
+	void setHeavyAtk(int newHeavyAtk) {
+		heavyAtk = newHeavyAtk;
+	}
+	void setLightAtk(int newLightAtk) {
+		lightAtk = newLightAtk;
+	}
+	void setHP(int newHP) {
+		hp = newHP;
+	}
+	void setMaxHP(int newMaxHP) {
+		maxHP = newMaxHP;
+	}
+	void setDef(int newDef) {
+		def = newDef;
+	}
+	void setSpd(int newSpd) {
+		spd = newSpd;
+	}
+	void setMP(int newMP) {
+		mp = newMP;
+	}
+	void setMaxMP(int newMaxMP) {
+		maxMP = newMaxMP;
+	}
+	string getName() const {
+		return name;
+	}
+	string getClassName() {
+		return className;
+	}
+	int getHeavyAtk() {
+		return heavyAtk;
+	}
+	int getLightAtk() {
+		return lightAtk;
+	}
+	int getBaseAtk() {
+		return baseAtk;
+	}
+	int getHP() {
+		return hp;
+	}
+	int getMaxHP() {
+		return maxHP;
+	}
+	int getDef() {
+		return def;
+	}
+	int getSpd() {
+		return spd;
+	}
+	int getMP() {
+		return mp;
+	}
+	int getMaxMP() {
+		return maxMP;
+	}
+	bool heavyAtkMP() { //check if you have enough mana to do the attack
+		if (mp - 8 >= 0) {
+			mp -= 8;
+			return true;
+		}
+		return false;
+	}
+	bool lightAtkMP() {
+		if (mp - 3 >= 0) {
+			mp -= 3;
+			return true;
+		}
+		return false;
+	}
+	void hurt(int damage) {
+		hp -= damage;
+		if (hp <= 0) {
+			isAlive = false; //needs to be implemented after fighting mechanic
+			// will just stop gameplay output "YOU DIED! GAME OVER" and quit the game
+		}
+	}
+};
+
+
+/*lets say the character class has light attack of 5
 void lightAttack(Character& player, Character& enemy) {
 	cout << "You sent out a light Attack!\n";
 	cout << "You did 5 attack damage to " << enemy.name << endl;
@@ -112,8 +404,8 @@ void menu(const Character& player) { //placeholder function will expand upon fur
 	}
 
 }
-
-vector <string> mapCreation() {
+*/
+vector<string> mapCreation() {
 	vector <string> mapData;
 	ifstream map("Maps.csv");
 	string temp;
@@ -128,7 +420,7 @@ vector <string> mapCreation() {
 	return mapData;
 }
 
-void displayMap(vector <vector<string>> map, int columns, int rows) {//displays map....if other maps are made in a simalar fashion then this functions work with that as well
+void displayMap(vector <vector<string>> map, const int columns, const int rows) {//displays map....if other maps are made in a simalar fashion then this functions work with that as well
 	for (int i = 0; i < columns; i++) {
 		for (int j = 0; j < rows; j++) {
 			cout << map.at(i).at(j);
