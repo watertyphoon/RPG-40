@@ -9,370 +9,67 @@
 #include <string>
 #include "/public/colors.h"
 #include <fstream>
-#include <chrono>
-#include <thread>
 #include <sstream>
 #include <string>
 #include <cctype>
 //add dictionary later
+
 using namespace std;
 
-//Banished Knight
-class Knight {
+class Character {
   private:
-	bool isAlive;
-	string name; //player name
-	string className;
-	string characterSymbol;
-	int heavyAtk;
-	int lightAtk;
-	int baseAtk;
 	int hp;
-	int maxHP; //to keep track of max hp so healing potions dont pass set max hp
-	int def; // val incoming attacks are reduced by
-	int spd; //aka intitive
-	int mp;  //mana for attacks
-	int maxMP;
+	int maxHp;
   public:
-	Knight(string playerName) {
-		isAlive = true;
-		name = playerName;
-		className = "Knight";
-		characterSymbol = "K";
-		heavyAtk = 30;
-		lightAtk = 15;
-		baseAtk = 5;
-		hp = 150;
-		maxHP = hp;
-		def = 3;
-		spd = 3;
-		mp = 100;
-		maxMP = mp;
-	}
-	void setName(string newName) {
-		name = newName;
-	}
-	void setHeavyAtk(int newHeavyAtk) {
-		heavyAtk = newHeavyAtk;
-	}
-	void setLightAtk(int newLightAtk) {
-		lightAtk = newLightAtk;
-	}
-	void setHP(int newHP) {
-		hp = newHP;
-	}
-	void setMaxHP(int newMaxHP) {
-		maxHP = newMaxHP;
-	}
-	void setDef(int newDef) {
-		def = newDef;
-	}
-	void setSpd(int newSpd) {
-		spd = newSpd;
-	}
-	void setMP(int newMP) {
-		mp = newMP;
-	}
-	void setMaxMP(int newMaxMP) {
-		maxMP = newMaxMP;
-	}
-	string getName() const {
-		return name;
-	}
-	string getClassName() {
-		return className;
-	}
-	string getCharacterSymbol() {
-		return characterSymbol;
-	}
-	int getHeavyAtk() {
-		return heavyAtk;
-	}
-	int getLightAtk() {
-		return lightAtk;
-	}
-	int getBaseAtk() {
-		return baseAtk;
-	}
+	//Public data
+	string name = "Among us";
+	string className = "Gambler";
+	int x, y;
+	int def;
+	int spd;
+	//Getters
 	int getHP() {
 		return hp;
 	}
-	int getMaxHP() {
-		return maxHP;
+	int getMaxHp() {
+		return maxHp;
 	}
-	int getDef() {
-		return def;
-	}
-	int getSpd() {
-		return spd;
-	}
-	int getMP() {
-		return mp;
-	}
-	int getMaxMP() {
-		return maxMP;
-	}
-	bool heavyAtkMP() { //check if you have enough mana to do the attack
-		if (mp - 10 >= 0) {
-			mp -= 10;
-			return true;
+	//Setters
+	void setHP(int newHp, bool ignoreMax = false) {
+		hp = newHp;
+		if (hp > maxHp && !ignoreMax) {
+			hp = maxHp;
 		}
-		return false;
 	}
-	bool lightAtkMP() {
-		if (mp - 6 >= 0) {
-			mp -= 6;
-			return true;
+	void setMaxHp(int newMax) {
+		maxHp = newMax;
+		if (hp > maxHp) {
+			hp = maxHp;
 		}
-		return false;
 	}
-	void hurt(int damage) {
+
+	//Methods
+	void hurt(int damage, bool ignoreMax = false) { //Yes you can deal negative to heal the character.
 		hp -= damage;
-		if (hp <= 0) {
-			isAlive = false; //needs to be implemented after fighting mechanic
-			// will just stop gameplay output "YOU DIED! GAME OVER" and quit the game
+		if (hp > maxHp && !ignoreMax) {
+			hp = maxHp;
 		}
+	}
+	bool isDead() {
+		return hp < 0;
+	}
+
+	//Consturcter thing.
+	Character(int health = 100, string itsName = "NO NAME", int posX = -1, int  posY = -1) {
+		maxHp = health;
+		hp = maxHp;
+		name = itsName;
+		x = posX;
+		y = posY;
 	}
 };
 
-//Shadow Mage
-class Mage {
-  private:
-	bool isAlive;
-	string name; //player name
-	string className;
-	string characterSymbol;
-	int heavyAtk;
-	int lightAtk;
-	int baseAtk;
-	int hp;
-	int maxHP; //to keep track of max hp so healing potions dont pass set max hp
-	int def; // val incoming attacks are reduced by
-	int spd; //aka intitive
-	int mp;  //mana for attacks
-	int maxMP;
-  public:
-	Mage(string playerName) {
-		isAlive = true;
-		name = playerName;
-		className = "Mage";
-		characterSymbol = "M";
-		heavyAtk = 40;
-		lightAtk = 20;
-		baseAtk = 5;
-		hp = 100;
-		maxHP = hp;
-		def = 2;
-		spd = 2;
-		mp = 150;
-		maxMP = mp;
-	}
-	void setName(string newName) {
-		name = newName;
-	}
-	void setHeavyAtk(int newHeavyAtk) {
-		heavyAtk = newHeavyAtk;
-	}
-	void setLightAtk(int newLightAtk) {
-		lightAtk = newLightAtk;
-	}
-	void setHP(int newHP) {
-		hp = newHP;
-	}
-	void setMaxHP(int newMaxHP) {
-		maxHP = newMaxHP;
-	}
-	void setDef(int newDef) {
-		def = newDef;
-	}
-	void setSpd(int newSpd) {
-		spd = newSpd;
-	}
-	void setMP(int newMP) {
-		mp = newMP;
-	}
-	void setMaxMP(int newMaxMP) {
-		maxMP = newMaxMP;
-	}
-	string getName() const {
-		return name;
-	}
-	string getClassName() {
-		return className;
-	}
-	string getCharacterSymbol() {
-		return characterSymbol;
-	}
-	int getHeavyAtk() {
-		return heavyAtk;
-	}
-	int getLightAtk() {
-		return lightAtk;
-	}
-	int getBaseAtk() {
-		return baseAtk;
-	}
-	int getHP() {
-		return hp;
-	}
-	int getMaxHP() {
-		return maxHP;
-	}
-	int getDef() {
-		return def;
-	}
-	int getSpd() {
-		return spd;
-	}
-	int getMP() {
-		return mp;
-	}
-	int getMaxMP() {
-		return maxMP;
-	}
-	bool heavyAtkMP() { //check if you have enough mana to do the attack
-		if (mp - 20 >= 0) {
-			mp -= 20;
-			return true;
-		}
-		return false;
-	}
-	bool lightAtkMP() {
-		if (mp - 8 >= 0) {
-			mp -= 8;
-			return true;
-		}
-		return false;
-	}
-	void hurt(int damage) {
-		hp -= damage;
-		if (hp <= 0) {
-			isAlive = false; //needs to be implemented after fighting mechanic
-			// will just stop gameplay output "YOU DIED! GAME OVER" and quit the game
-		}
-	}
-};
-
-//Puppet
-class Puppet {
-  private:
-	bool isAlive;
-	string name; //player name
-	string className;
-	string characterSymbol;
-	int heavyAtk;
-	int lightAtk;
-	int baseAtk;
-	int hp;
-	int maxHP; //to keep track of max hp so healing potions dont pass set max hp
-	int def; // val incoming attacks are reduced by
-	int spd; //aka intitive
-	int mp;  //mana for attacks
-	int maxMP;
-  public:
-	Puppet(string playerName) {
-		isAlive = true;
-		name = playerName;
-		className = "Puppet";
-		characterSymbol = "P";
-		heavyAtk = 25;
-		lightAtk = 12;
-		baseAtk = 5;
-		hp = 120;
-		maxHP = hp;
-		def = 3;
-		spd = 4;
-		mp = 120;
-		maxMP = mp;
-	}
-	void setName(string newName) {
-		name = newName;
-	}
-	void setHeavyAtk(int newHeavyAtk) {
-		heavyAtk = newHeavyAtk;
-	}
-	void setLightAtk(int newLightAtk) {
-		lightAtk = newLightAtk;
-	}
-	void setHP(int newHP) {
-		hp = newHP;
-	}
-	void setMaxHP(int newMaxHP) {
-		maxHP = newMaxHP;
-	}
-	void setDef(int newDef) {
-		def = newDef;
-	}
-	void setSpd(int newSpd) {
-		spd = newSpd;
-	}
-	void setMP(int newMP) {
-		mp = newMP;
-	}
-	void setMaxMP(int newMaxMP) {
-		maxMP = newMaxMP;
-	}
-	string getName() const {
-		return name;
-	}
-	string getClassName() {
-		return className;
-	}
-	string getCharacterSymbol() {
-		return characterSymbol;
-	}
-	int getHeavyAtk() {
-		return heavyAtk;
-	}
-	int getLightAtk() {
-		return lightAtk;
-	}
-	int getBaseAtk() {
-		return baseAtk;
-	}
-	int getHP() {
-		return hp;
-	}
-	int getMaxHP() {
-		return maxHP;
-	}
-	int getDef() {
-		return def;
-	}
-	int getSpd() {
-		return spd;
-	}
-	int getMP() {
-		return mp;
-	}
-	int getMaxMP() {
-		return maxMP;
-	}
-	bool heavyAtkMP() { //check if you have enough mana to do the attack
-		if (mp - 8 >= 0) {
-			mp -= 8;
-			return true;
-		}
-		return false;
-	}
-	bool lightAtkMP() {
-		if (mp - 3 >= 0) {
-			mp -= 3;
-			return true;
-		}
-		return false;
-	}
-	void hurt(int damage) {
-		hp -= damage;
-		if (hp <= 0) {
-			isAlive = false; //needs to be implemented after fighting mechanic
-			// will just stop gameplay output "YOU DIED! GAME OVER" and quit the game
-		}
-	}
-};
-
-
-/*lets say the character class has light attack of 5
+//lets say the character class has light attack of 5
 void lightAttack(Character& player, Character& enemy) {
 	cout << "You sent out a light Attack!\n";
 	cout << "You did 5 attack damage to " << enemy.name << endl;
@@ -415,8 +112,8 @@ void menu(const Character& player) { //placeholder function will expand upon fur
 	}
 
 }
-*/
-vector<string> mapCreation() {
+
+vector <string> mapCreation() {
 	vector <string> mapData;
 	ifstream map("Maps.csv");
 	string temp;
@@ -431,9 +128,9 @@ vector<string> mapCreation() {
 	return mapData;
 }
 
-void displayMap(vector <vector<string>> map, const int columns, const int rows) {//displays map....if other maps are made in a simalar fashion then this functions work with that as well
-	for (int i = 0; i < columns; i++) {
-		for (int j = 0; j < rows; j++) {
+void displayMap(vector <vector<string>> map) {//displays map....if other maps are made in a simalar fashion then this functions work with that as well
+	for (int i = 0; i < map.size(); i++) {
+		for (int j = 0; j < map.at(i).size(); j++) {
 			cout << map.at(i).at(j);
 		}
 		cout << endl;
@@ -469,7 +166,7 @@ void babySudoku() {
 	cout << "Lets see if you can beat me in this battle of minds" << endl;
 	while (true) {
 		for (int i = 0; i < board.size(); i++) {
-			for (int j = 0; j < board[i].size(); j++) {
+			for (int j = 0; j < board.at(i).size(); j++) {
 				temp = board.at(i).at(j);
 				if (isdigit(static_cast<unsigned char>(temp.at(0)))) {
 					cout << GREEN << board.at(i).at(j) << RESET;
@@ -604,95 +301,77 @@ void riddles3() {
 		}
 	}
 }
-
-
-
-void printSlowly(string s) {
-	for (char c : s) {
-		cout << c << flush;
-		this_thread::sleep_for(chrono::milliseconds(50));
+string loreItems(int item) {//random items that the player will find scattered around the map that will hint to the world outside and your purpose
+	//1 is a chared notebook
+	if (item == 1) {
+		cout << "As you pick up the near blackedn notebook it crumbles to ashes" << endl;
+		cout << "The only thing being left behind a small piece of paper no bigger than a gold coin" << endl;
+		cout << "In that piece there is a couple words you can barely make out" << endl;
+		cout << "-est subje-" << endl;
+		cout << "Though you don't want to dwell on it too long and drop it to the floor and start leaving" << endl;
+		cout << "But no matter how much further you walk away you can't shake off the ominous feeling radiating deep from within your stomach" << endl;
 	}
 }
 
-
-void quit() {
-	printSlowly("Quitting? Already? Welp, seeya...");
-	exit(0);
-}
-
-
-
-
-
 int main() {
 	string temp;
-	vector <string> tempMap = mapCreation();
-	vector <vector <string>> map;//our new and improved map
+	vector <string> map = mapCreation();
+	vector <vector <string>> cords;//our new and improved map
 	/*for (int i = 0; i < map.size(); i++) { //keeping this here for now, for testing purposes
 		cout << map.at(i) << endl;
 	}*/
 	//babySudoku();
-	temp = tempMap.at(0);
-	const int ROWS = temp.size();
-	const int COLS = tempMap.size();
-	map.resize(COLS, vector<string>(ROWS, ""));
-	for (int i = 0; i < COLS; i++) {// i and j will act as you would x and y cords
-		temp = tempMap.at(i);
+	temp = map.at(0);
+	int rowSize = temp.size();
+	int columnSize = map.size();
+	int prevRow = 0;
+	int prevColumn = 0;
+	int playerRow = 0;
+	int playerColumn = 0;
+	int ecounters = 2;
+	cords.resize(columnSize, vector<string>(rowSize, ""));
+	for (int i = 0; i < columnSize; i++) {// i and j will act as you would x and y cords
+		temp = map.at(i);
 		for (int j = 0; j < temp.size(); j++) {
-			map.at(i).at(j) = temp.at(j);
+			cords.at(i).at(j) = temp.at(j);
+			if (cords.at(i).at(j) == "?") {
+				playerRow = j;
+				playerColumn = i;
+			}
 		}
 	}
-
+	cout << "row size " << rowSize << endl;
+	cout << "column size" << columnSize << endl;
+	displayMap(cords);
+	cout << "player location: " << playerRow << "    " << playerColumn << endl;
+	set_raw_mode(true);
 	show_cursor(false);
-	string name, temp2, choice;
-	printSlowly("You awake to a room you are unfamiliar with, missing your name and how you got here...");
-	cout << endl;
-	printSlowly("What name would like to go by?");
-	cout << endl;
-	cin >> name;
-	cout << endl;
-	printSlowly("hmmm.");
-	cout << endl;
-	temp2 = name + ". It suits you, well alright " + name + " which class would you like to be?";
-	printSlowly(temp2);
-	cout << endl;
-	printSlowly("1) Knight");
-	cout << endl;
-	printSlowly("2) Mage");
-	cout << endl;
-	printSlowly("3) Puppet");
-	cout << endl;
-	printSlowly("(press 1, 2, 3, or any other key to quit)");
-	cout << endl;
-	cin >> choice;
-	cout << endl;
-	if (choice == "1") {
-		temp2 = "";
-		Knight player(name);
-		temp2 = "Good choice. You are going to be the " + player.getCharacterSymbol() + " , Good Luck!.";
-		printSlowly(temp2);
-		cout << endl;
-	} else if (choice == "2") {
-		Mage player(name);
-		temp = "Good choice. You are going to be the " + player.getCharacterSymbol() + " , Good Luck!.";
-		printSlowly(temp);
-		cout << endl;
-	} else if (choice == "3") {
-		Puppet player(name);
-		temp = "Good choice. You are going to be the " + player.getCharacterSymbol() + " , Good Luck!.";
-		printSlowly(temp);
-		cout << endl;
-	} else {
-		quit();
+	prevRow = playerRow;
+	prevColumn = playerColumn;
+	while (true) {
+		int m = toupper(quick_read());
+		if (m == 'W' || m == UP_ARROW) {
+			playerColumn--;
+		}
+		if (m == 'S' || m == DOWN_ARROW) {
+			playerColumn++;
+		}
+		if (m == 'A' || m == LEFT_ARROW) {
+			playerRow--;
+		}
+		if (m == 'D' || m == RIGHT_ARROW) {
+			playerRow++;
+		}
+		cords.at(playerColumn).at(playerRow) = "?";
+		cords.at(prevColumn).at(prevRow) = ".";
+		if (!(playerRow == prevRow && playerColumn == prevColumn)) {
+			clearscreen();
+			displayMap(cords);
+		}
+		encounters = encounters * 2;
+		prevRow = playerRow;
+		prevColumn = playerColumn;
 	}
-
-	this_thread::sleep_for(chrono::milliseconds(2500));
-	movecursor(0, 0);
-	clearscreen();
-	//	cout << "row size " << ROWS << endl;
-//	cout << "column size" << COLS << endl;
-//	displayMap(map, COLS, ROWS);
-//	riddles3();
 	//the line above ^ displays the whole map, for testing purpases only at the moment
 
 }
