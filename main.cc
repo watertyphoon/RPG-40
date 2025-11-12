@@ -10,6 +10,8 @@
 #include "/public/colors.h"
 #include <fstream>
 #include <sstream>
+#include <string>
+#include <cctype>
 //add dictionary later
 
 using namespace std;
@@ -135,6 +137,91 @@ void displayMap(vector <vector<string>> map, int columns, int rows) {//displays 
 	}
 }
 
+string sudokuAnswers(int row, int column) {
+	string answer;
+	vector <vector<string>> board = {
+		{"2", "4", "1", "3"},
+		{"3", "1", "4", "2"},
+		{"4", "3", "2", "1"},
+		{"1", "2", "3", "4"}
+	};
+	answer = board.at(row - 1).at(column - 1);
+	return answer;
+}
+
+void babySudoku() {
+	vector <vector<string>> board(4, vector<string>(4, "*"));
+	board.at(0).at(0) = "2";
+	board.at(1).at(2) = "4";
+	board.at(2).at(1) = "3";
+	board.at(3).at(3) = "4";
+	int userRow = 0;
+	int userColumn = 0;
+	int solved = 0;
+	int bounds = 0;
+	string guess;
+	string answer;
+	string temp;
+	cout << "Guess I'll go a little easy on you" << endl;
+	cout << "Lets see if you can beat me in this battle of minds" << endl;
+	while (true) {
+		for (int i = 0; i < board.size(); i++) {
+			for (int j = 0; j < board[i].size(); j++) {
+				temp = board.at(i).at(j);
+				if (isdigit(static_cast<unsigned char>(temp.at(0)))) {
+					cout << GREEN << board.at(i).at(j) << RESET;
+					solved = solved + 1;
+				} else {
+					cout << RED << board.at(i).at(j) << RESET;
+				}
+			}
+			cout << endl;
+		}
+		if (solved == 16) {
+			cout << "I can't believe it you beat me!" << endl;
+			cout << RED << "SYSTEM" << GREEN << "<congrats you beat boss Yuki-Onna>" << RESET << endl;
+			break;
+		}
+		solved = 0;
+		cout << "choose which square you want to edit" << endl;
+		cin >> userRow >> userColumn;
+		if (userRow == 1 && userColumn == 1) {
+			cout << "You idiot! That square is your free space!" << endl;
+			continue;
+		} else if (userRow == 2 && userColumn == 3) {
+			cout << "You idiot! That square is your free space!" << endl;
+			continue;
+		} else if (userRow == 3 && userColumn == 2) {
+			cout << "You idiot! That square is your free space!" << endl;
+			continue;
+		} else if (userRow == 4 && userColumn == 4) {
+			cout << "You idiot! That square is your free space!" << endl;
+			continue;
+		} else if (userRow > 4 || userRow <= 0 || userColumn > 4 || userColumn <= 0) {
+			cout << "Your hand gets slapped" << endl;
+			cout << "Hey stop writing on the table, you brainles savage!!!" << endl;
+			continue;
+		} else if (!cin) {
+			cout << "You know that isn't a number right?" << endl;
+			continue;
+		}
+		cout << "Make your feeble attempt to answer" << endl;
+		cin >> guess;
+		bounds = stoi(guess);
+		if (bounds <= 0 || bounds > 4) {
+			cout << "Congrats you have exceeded my expectations" << endl;
+		} else if (!isdigit(static_cast<unsigned char>(guess.at(0)))) {
+			cout << "Are you writing in a different language cause that ain't a number" << endl;
+		}
+		answer = sudokuAnswers(userRow, userColumn);
+		if (answer == guess) {
+			cout << "That is surprising you got something right" << endl;
+			board.at(userRow - 1).at(userColumn - 1) = answer;
+		} else {
+			cout << "HAHAHAH just as I expected" << endl;;
+		}
+	}
+}
 
 void puzzleWordle() {
 	int attempts = 0;
@@ -165,7 +252,8 @@ int main() {
 	/*for (int i = 0; i < map.size(); i++) { //keeping this here for now, for testing purposes
 		cout << map.at(i) << endl;
 	}*/
-	temp = map.at(0);
+	babySudoku();
+	/*temp = map.at(0);
 	int rowSize = temp.size();
 	int columnSize = map.size();
 	cords.resize(columnSize, vector<string>(rowSize, ""));
@@ -174,7 +262,8 @@ int main() {
 		for (int j = 0; j < temp.size(); j++) {
 			cords.at(i).at(j) = temp.at(j);
 		}
-	}
+	}*/
+
 	//displayMap(cords, columnSize, rowSize);
 	//the line above ^ displays the whole map, for testing purpases only at the moment
 
