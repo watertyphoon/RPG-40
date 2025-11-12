@@ -301,7 +301,7 @@ void riddles3() {
 		}
 	}
 }
-string loreItems(int item) {//random items that the player will find scattered around the map that will hint to the world outside and your purpose
+void loreItems(int item) {//random items that the player will find scattered around the map that will hint to the world outside and your purpose
 	//1 is a chared notebook
 	if (item == 1) {
 		cout << "As you pick up the near blackedn notebook it crumbles to ashes" << endl;
@@ -369,7 +369,7 @@ int main() {
 			movecursor(0, 0);
 			displayMap(cords);
 		}
-		encounters = encounters * 2;
+		ecounters = ecounters * 2;
 		prevRow = playerRow;
 		prevColumn = playerColumn;
 	}
