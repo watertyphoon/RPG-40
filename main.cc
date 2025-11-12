@@ -9,6 +9,8 @@
 #include <string>
 #include "/public/colors.h"
 #include <fstream>
+#include <chrono>
+#include <thread>
 #include <sstream>
 #include <string>
 #include <cctype>
@@ -20,7 +22,7 @@ class Knight {
   private:
 	bool isAlive;
 	string name; //player name
-	const string className;
+	string className;
 	string characterSymbol;
 	int heavyAtk;
 	int lightAtk;
@@ -33,19 +35,19 @@ class Knight {
 	int maxMP;
   public:
 	Knight(string playerName) {
-		bool isAlive = true;
-		string name = playerName;
-		const string className = "Knight";
-		string characterSymbol = "K";
-		int heavyAtk = 30;
-		int lightAtk = 15;
-		int baseAtk = 5;
-		int hp = 150;
-		int maxHP = hp;
-		int def = 3;
-		int spd = 3;
-		int mp = 100;
-		int maxMP = mp;
+		isAlive = true;
+		name = playerName;
+		className = "Knight";
+		characterSymbol = "K";
+		heavyAtk = 30;
+		lightAtk = 15;
+		baseAtk = 5;
+		hp = 150;
+		maxHP = hp;
+		def = 3;
+		spd = 3;
+		mp = 100;
+		maxMP = mp;
 	}
 	void setName(string newName) {
 		name = newName;
@@ -79,6 +81,9 @@ class Knight {
 	}
 	string getClassName() {
 		return className;
+	}
+	string getCharacterSymbol() {
+		return characterSymbol;
 	}
 	int getHeavyAtk() {
 		return heavyAtk;
@@ -135,7 +140,7 @@ class Mage {
   private:
 	bool isAlive;
 	string name; //player name
-	const string className;
+	string className;
 	string characterSymbol;
 	int heavyAtk;
 	int lightAtk;
@@ -148,19 +153,19 @@ class Mage {
 	int maxMP;
   public:
 	Mage(string playerName) {
-		bool isAlive = true;
-		string name = playerName;
-		const string className = "Mage";
-		string characterSymbol = "M";
-		int heavyAtk = 40;
-		int lightAtk = 20;
-		int baseAtk = 5;
-		int hp = 100;
-		int maxHP = hp;
-		int def = 2;
-		int spd = 2;
-		int mp = 150;
-		int maxMP = mp;
+		isAlive = true;
+		name = playerName;
+		className = "Mage";
+		characterSymbol = "M";
+		heavyAtk = 40;
+		lightAtk = 20;
+		baseAtk = 5;
+		hp = 100;
+		maxHP = hp;
+		def = 2;
+		spd = 2;
+		mp = 150;
+		maxMP = mp;
 	}
 	void setName(string newName) {
 		name = newName;
@@ -194,6 +199,9 @@ class Mage {
 	}
 	string getClassName() {
 		return className;
+	}
+	string getCharacterSymbol() {
+		return characterSymbol;
 	}
 	int getHeavyAtk() {
 		return heavyAtk;
@@ -250,7 +258,7 @@ class Puppet {
   private:
 	bool isAlive;
 	string name; //player name
-	const string className;
+	string className;
 	string characterSymbol;
 	int heavyAtk;
 	int lightAtk;
@@ -263,19 +271,19 @@ class Puppet {
 	int maxMP;
   public:
 	Puppet(string playerName) {
-		bool isAlive = true;
-		string name = playerName;
-		const string className = "Puppet";
-		string characterSymbol = "P";
-		int heavyAtk = 25;
-		int lightAtk = 12;
-		int baseAtk = 5;
-		int hp = 120;
-		int maxHP = hp;
-		int def = 3;
-		int spd = 4;
-		int mp = 120;
-		int maxMP = mp;
+		isAlive = true;
+		name = playerName;
+		className = "Puppet";
+		characterSymbol = "P";
+		heavyAtk = 25;
+		lightAtk = 12;
+		baseAtk = 5;
+		hp = 120;
+		maxHP = hp;
+		def = 3;
+		spd = 4;
+		mp = 120;
+		maxMP = mp;
 	}
 	void setName(string newName) {
 		name = newName;
@@ -309,6 +317,9 @@ class Puppet {
 	}
 	string getClassName() {
 		return className;
+	}
+	string getCharacterSymbol() {
+		return characterSymbol;
 	}
 	int getHeavyAtk() {
 		return heavyAtk;
@@ -594,6 +605,74 @@ void riddles3() {
 	}
 }
 
+
+
+void printSlowly(string s) {
+	for (char c : s) {
+		cout << c << flush;
+		this_thread::sleep_for(chrono::milliseconds(50));
+	}
+}
+
+
+void quit() {
+	printSlowly("Quitting? Already? Welp, seeya...");
+	exit(0);
+}
+
+void intro() {
+	show_cursor(false);
+	string name, temp, choice;
+	printSlowly("You awake to a room you are unfamiliar with, missing your name and how you got here...");
+	cout << endl;
+	printSlowly("What name would like to go by?");
+	cout << endl;
+	cin >> name;
+	cout << endl;
+	printSlowly("hmmm.");
+	cout << endl;
+	temp = name + ". It suits you, well alright " + name + " which class would you like to be?";
+	printSlowly(temp);
+	cout << endl;
+	printSlowly("1) Knight");
+	cout << endl;
+	printSlowly("2) Mage");
+	cout << endl;
+	printSlowly("3) Puppet");
+	cout << endl;
+	printSlowly("(press 1, 2, 3, or any other key to quit)");
+	cout << endl;
+	cin >> choice;
+	cout << endl;
+	if (choice == "1") {
+		temp = "";
+		Knight player(name);
+		temp = "Good choice. You are going to be the " + player.getCharacterSymbol() + " , Good Luck!.";
+		printSlowly(temp);
+		cout << endl;
+	} else if (choice == "2") {
+		Mage player(name);
+		temp = "Good choice. You are going to be the " + player.getCharacterSymbol() + " , Good Luck!.";
+		printSlowly(temp);
+		cout << endl;
+	} else if (choice == "3") {
+		Puppet player(name);
+		temp = "Good choice. You are going to be the " + player.getCharacterSymbol() + " , Good Luck!.";
+		printSlowly(temp);
+		cout << endl;
+	} else {
+		quit();
+	}
+
+	this_thread::sleep_for(chrono::milliseconds(2500));
+	movecursor(0, 0);
+	clearscreen();
+}
+
+
+
+
+
 int main() {
 	string temp;
 	vector <string> tempMap = mapCreation();
@@ -604,7 +683,7 @@ int main() {
 	//babySudoku();
 	temp = tempMap.at(0);
 	const int ROWS = temp.size();
-	const int COLS = map.size();
+	const int COLS = tempMap.size();
 	map.resize(COLS, vector<string>(ROWS, ""));
 	for (int i = 0; i < COLS; i++) {// i and j will act as you would x and y cords
 		temp = tempMap.at(i);
@@ -612,10 +691,13 @@ int main() {
 			map.at(i).at(j) = temp.at(j);
 		}
 	}
-	cout << "row size " << ROWS << endl;
-	cout << "column size" << COLS << endl;
-	displayMap(map, COLS, ROWS);
-	riddles3();
+
+	intro();
+
+	//	cout << "row size " << ROWS << endl;
+//	cout << "column size" << COLS << endl;
+//	displayMap(map, COLS, ROWS);
+//	riddles3();
 	//the line above ^ displays the whole map, for testing purpases only at the moment
 
 }
