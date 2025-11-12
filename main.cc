@@ -596,25 +596,25 @@ void riddles3() {
 
 int main() {
 	string temp;
-	vector <string> map = mapCreation();
-	vector <vector <string>> cords;//our new and improved map
+	vector <string> tempMap = mapCreation();
+	vector <vector <string>> map;//our new and improved map
 	/*for (int i = 0; i < map.size(); i++) { //keeping this here for now, for testing purposes
 		cout << map.at(i) << endl;
 	}*/
 	//babySudoku();
-	temp = map.at(0);
-	int rowSize = temp.size();
-	int columnSize = map.size();
-	cords.resize(columnSize, vector<string>(rowSize, ""));
-	for (int i = 0; i < columnSize; i++) {// i and j will act as you would x and y cords
-		temp = map.at(i);
+	temp = tempMap.at(0);
+	const int ROWS = temp.size();
+	const int COLS = map.size();
+	map.resize(COLS, vector<string>(ROWS, ""));
+	for (int i = 0; i < COLS; i++) {// i and j will act as you would x and y cords
+		temp = tempMap.at(i);
 		for (int j = 0; j < temp.size(); j++) {
-			cords.at(i).at(j) = temp.at(j);
+			map.at(i).at(j) = temp.at(j);
 		}
 	}
-	cout << "row size " << rowSize << endl;
-	cout << "column size" << columnSize << endl;
-	displayMap(cords, columnSize, rowSize);
+	cout << "row size " << ROWS << endl;
+	cout << "column size" << COLS << endl;
+	displayMap(map, COLS, ROWS);
 	riddles3();
 	//the line above ^ displays the whole map, for testing purpases only at the moment
 
