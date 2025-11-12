@@ -366,6 +366,7 @@ int main() {
 		cords.at(prevColumn).at(prevRow) = ".";
 		if (!(playerRow == prevRow && playerColumn == prevColumn)) {
 			clearscreen();
+			movecursor(0, 0);
 			displayMap(cords);
 		}
 		encounters = encounters * 2;
