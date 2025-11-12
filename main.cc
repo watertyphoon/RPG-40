@@ -126,6 +126,15 @@ vector <string> mapCreation() {
 	return mapData;
 }
 
+void displayMap(vector <vector<string>> map, int columns, int rows) {//displays map....if other maps are made in a simalar fashion then this functions work with that as well
+	for (int i = 0; i < columns; i++) {
+		for (int j = 0; j < rows; j++) {
+			cout << map.at(i).at(j);
+		}
+		cout << endl;
+	}
+}
+
 
 void puzzleWordle() {
 	int attempts = 0;
@@ -150,8 +159,23 @@ void puzzleWordle() {
 
 
 int main() {
-	vector <string> MAP = mapCreation();
-	for (int i = 0; i < MAP.size(); i++) {
-		cout << MAP.at(i) << endl;
+	string temp;
+	vector <string> map = mapCreation();
+	vector <vector <string>> cords;//our new and improved map
+	/*for (int i = 0; i < map.size(); i++) { //keeping this here for now, for testing purposes
+		cout << map.at(i) << endl;
+	}*/
+	temp = map.at(0);
+	int rowSize = temp.size();
+	int columnSize = map.size();
+	cords.resize(columnSize, vector<string>(rowSize, ""));
+	for (int i = 0; i < columnSize; i++) {// i and j will act as you would x and y cords
+		temp = map.at(i);
+		for (int j = 0; j < temp.size(); j++) {
+			cords.at(i).at(j) = temp.at(j);
+		}
 	}
+	//displayMap(cords, columnSize, rowSize);
+	//the line above ^ displays the whole map, for testing purpases only at the moment
+
 }
