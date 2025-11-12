@@ -620,55 +620,6 @@ void quit() {
 	exit(0);
 }
 
-void intro() {
-	show_cursor(false);
-	string name, temp, choice;
-	printSlowly("You awake to a room you are unfamiliar with, missing your name and how you got here...");
-	cout << endl;
-	printSlowly("What name would like to go by?");
-	cout << endl;
-	cin >> name;
-	cout << endl;
-	printSlowly("hmmm.");
-	cout << endl;
-	temp = name + ". It suits you, well alright " + name + " which class would you like to be?";
-	printSlowly(temp);
-	cout << endl;
-	printSlowly("1) Knight");
-	cout << endl;
-	printSlowly("2) Mage");
-	cout << endl;
-	printSlowly("3) Puppet");
-	cout << endl;
-	printSlowly("(press 1, 2, 3, or any other key to quit)");
-	cout << endl;
-	cin >> choice;
-	cout << endl;
-	if (choice == "1") {
-		temp = "";
-		Knight player(name);
-		temp = "Good choice. You are going to be the " + player.getCharacterSymbol() + " , Good Luck!.";
-		printSlowly(temp);
-		cout << endl;
-	} else if (choice == "2") {
-		Mage player(name);
-		temp = "Good choice. You are going to be the " + player.getCharacterSymbol() + " , Good Luck!.";
-		printSlowly(temp);
-		cout << endl;
-	} else if (choice == "3") {
-		Puppet player(name);
-		temp = "Good choice. You are going to be the " + player.getCharacterSymbol() + " , Good Luck!.";
-		printSlowly(temp);
-		cout << endl;
-	} else {
-		quit();
-	}
-
-	this_thread::sleep_for(chrono::milliseconds(2500));
-	movecursor(0, 0);
-	clearscreen();
-}
-
 
 
 
@@ -692,8 +643,52 @@ int main() {
 		}
 	}
 
-	intro();
+	show_cursor(false);
+	string name, temp2, choice;
+	printSlowly("You awake to a room you are unfamiliar with, missing your name and how you got here...");
+	cout << endl;
+	printSlowly("What name would like to go by?");
+	cout << endl;
+	cin >> name;
+	cout << endl;
+	printSlowly("hmmm.");
+	cout << endl;
+	temp2 = name + ". It suits you, well alright " + name + " which class would you like to be?";
+	printSlowly(temp2);
+	cout << endl;
+	printSlowly("1) Knight");
+	cout << endl;
+	printSlowly("2) Mage");
+	cout << endl;
+	printSlowly("3) Puppet");
+	cout << endl;
+	printSlowly("(press 1, 2, 3, or any other key to quit)");
+	cout << endl;
+	cin >> choice;
+	cout << endl;
+	if (choice == "1") {
+		temp2 = "";
+		Knight player(name);
+		temp2 = "Good choice. You are going to be the " + player.getCharacterSymbol() + " , Good Luck!.";
+		printSlowly(temp2);
+		cout << endl;
+	} else if (choice == "2") {
+		Mage player(name);
+		temp = "Good choice. You are going to be the " + player.getCharacterSymbol() + " , Good Luck!.";
+		printSlowly(temp);
+		cout << endl;
+	} else if (choice == "3") {
+		Puppet player(name);
+		temp = "Good choice. You are going to be the " + player.getCharacterSymbol() + " , Good Luck!.";
+		printSlowly(temp);
+		cout << endl;
+	} else {
+		quit();
+	}
 
+	this_thread::sleep_for(chrono::milliseconds(2500));
+	movecursor(0, 0);
+	clearscreen();
 	//	cout << "row size " << ROWS << endl;
 //	cout << "column size" << COLS << endl;
 //	displayMap(map, COLS, ROWS);
