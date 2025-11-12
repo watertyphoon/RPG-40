@@ -369,7 +369,7 @@ int main() {
 			movecursor(0, 0);
 			displayMap(cords);
 		}
-		ecounters = ecounters * 2;
+		//ecounters = ecounters * 2;
 		prevRow = playerRow;
 		prevColumn = playerColumn;
 	}
