@@ -328,6 +328,7 @@ int main() {
 	int prevColumn = 0;
 	int playerRow = 0;
 	int playerColumn = 0;
+	int ecounters = 2;
 	cords.resize(columnSize, vector<string>(rowSize, ""));
 	for (int i = 0; i < columnSize; i++) {// i and j will act as you would x and y cords
 		temp = map.at(i);
@@ -367,6 +368,7 @@ int main() {
 			clearscreen();
 			displayMap(cords);
 		}
+		encounters = encounters * 2;
 		prevRow = playerRow;
 		prevColumn = playerColumn;
 	}
