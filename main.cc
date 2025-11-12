@@ -536,27 +536,86 @@ void puzzleWordle() {
 	}
 }
 
+void riddles3() {
+	string answer;
+	cout << "To get through me you must answer my riddles three" << endl;;
+	cout << "If you manage to answer them I'll join your party" << endl;
+	cout << "Else you will fall victim to my blade" << endl;
+	cout << "What has a bank but not funds in it" << endl;
+	cout << "What moves about but has no body" << endl;
+	cout << "And does...um..other liquidy things" << endl;
+	while (true) {
+		cout << "What has a bank but no funds in it" << endl;
+		cout << "What moves about but has no body" << endl;
+		cout << "And does...um..other liquidy things" << endl;
+		cin >> answer;
+		if (answer == "river" || answer == "River") {
+			cout << "Correct, but don't get too confident for this is my easiest riddle" << endl;
+			break;
+		} else {
+			cout << "Inncorrect, try again" << endl;
+		}
+	}
+	cout << "What has hands but no fingers" << endl;
+	cout << "What has a face but no flesh or facial feature" << endl;
+	cout << "And um...uuuh...other mechinical metallic features" << endl;
+	while (true) {
+		cin >> answer;
+		if (answer == "clock" || answer == "Clock") {
+			cout << "Correct again, bravo" << endl;
+			cout << "Quite the head you have on your shoulders their buddy" << endl;
+			cout << "But don't be hasty for my thrid riddle will surely best you" << endl;
+			break;
+		} else {
+			cout << "See, told you to keep your head about you" << endl;
+			cout << "Try again buster" << endl;
+		}
+	}
+	cout << "Great job coming this far but brace yourself for here comes my final riddle" << endl;
+	cout << "<in a moncrome voice>" << endl;
+	cout << "A man goes out in heavy rain with no protection" << endl;
+	cout << "Though, his hair doesn't get wet!" << endl;
+	cout << "How did he accomplish such feat of strenght" << endl;
+	cin.ignore();
+	while (true) {
+		getline(cin, answer);
+		if (answer == "bald" || answer == "he is bald" || answer == "he has no hair" || answer == "no hair") {
+			cout << "HAHAHAHAHA" << endl;
+			cout << "No one has ever evaded my blade before" << endl;
+			cout << "Now as stated my blade shall now be yours" << endl;
+			cout << RED << " <SYSTEM> " << RESET << GREEN << "congratulations " << RESET << YELLOW << "<OBJECT> ";
+			cout << RESET << GREEN  << "Phantom-Knight boss has been defeated and has joined your party" << RESET << endl;
+			break;
+		} else {
+			cout << "Now you are witnessing why no one has ever evaded my blade" << endl;
+			cout << "Struggle like your life depends on it" << endl;
+			cout << "Try again" << endl;
+		}
+	}
+}
 
 int main() {
 	string temp;
-	vector <string> tempMap = mapCreation();
-	vector<vector<string>> map;//our new and improved map
+	vector <string> map = mapCreation();
+	vector <vector <string>> cords;//our new and improved map
 	/*for (int i = 0; i < map.size(); i++) { //keeping this here for now, for testing purposes
 		cout << map.at(i) << endl;
 	}*/
 	//babySudoku();
-	temp = tempMap.at(0);
-	const int ROWS = temp.size();
-	const int COLS = tempMap.size();
-	map.resize(COLS, vector<string>(ROWS, ""));
-	for (int i = 0; i < COLS; i++) {// i and j will act as you would x and y cords
-		temp = tempMap.at(i);
+	temp = map.at(0);
+	int rowSize = temp.size();
+	int columnSize = map.size();
+	cords.resize(columnSize, vector<string>(rowSize, ""));
+	for (int i = 0; i < columnSize; i++) {// i and j will act as you would x and y cords
+		temp = map.at(i);
 		for (int j = 0; j < temp.size(); j++) {
-			map.at(i).at(j) = temp.at(j);
+			cords.at(i).at(j) = temp.at(j);
 		}
 	}
-
-	displayMap(map, COLS, ROWS);
+	cout << "row size " << rowSize << endl;
+	cout << "column size" << columnSize << endl;
+	displayMap(cords, columnSize, rowSize);
+	riddles3();
 	//the line above ^ displays the whole map, for testing purpases only at the moment
 
 }
