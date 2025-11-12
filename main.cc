@@ -128,9 +128,9 @@ vector <string> mapCreation() {
 	return mapData;
 }
 
-void displayMap(vector <vector<string>> map, int columns, int rows) {//displays map....if other maps are made in a simalar fashion then this functions work with that as well
-	for (int i = 0; i < columns; i++) {
-		for (int j = 0; j < rows; j++) {
+void displayMap(vector <vector<string>> map) {//displays map....if other maps are made in a simalar fashion then this functions work with that as well
+	for (int i = 0; i < map.size(); i++) {
+		for (int j = 0; j < map.at(i).size(); j++) {
 			cout << map.at(i).at(j);
 		}
 		cout << endl;
@@ -166,7 +166,7 @@ void babySudoku() {
 	cout << "Lets see if you can beat me in this battle of minds" << endl;
 	while (true) {
 		for (int i = 0; i < board.size(); i++) {
-			for (int j = 0; j < board[i].size(); j++) {
+			for (int j = 0; j < board.at(i).size(); j++) {
 				temp = board.at(i).at(j);
 				if (isdigit(static_cast<unsigned char>(temp.at(0)))) {
 					cout << GREEN << board.at(i).at(j) << RESET;
@@ -303,13 +303,13 @@ void riddles3() {
 }
 string loreItems(int item) {//random items that the player will find scattered around the map that will hint to the world outside and your purpose
 	//1 is a chared notebook
-	if(item ==1) {
-	cout << "As you pick up the near blackedn notebook it crumbles to ashes" << endl;
-	cout << "The only thing being left behind a small piece of paper no bigger than a gold coin" << endl;
-	cout << "In that piece there is a couple words you can barely make out" << endl;
-	cout << "-est subje-" << endl;
-	cout << "Though you don't want to dwell on it too long and drop it to the floor and start leaving" << endl;
-	cout << "But no matter how much further you walk away you can't shake off the ominous feeling radiating deep from within your stomach" << endl;
+	if (item == 1) {
+		cout << "As you pick up the near blackedn notebook it crumbles to ashes" << endl;
+		cout << "The only thing being left behind a small piece of paper no bigger than a gold coin" << endl;
+		cout << "In that piece there is a couple words you can barely make out" << endl;
+		cout << "-est subje-" << endl;
+		cout << "Though you don't want to dwell on it too long and drop it to the floor and start leaving" << endl;
+		cout << "But no matter how much further you walk away you can't shake off the ominous feeling radiating deep from within your stomach" << endl;
 	}
 }
 
@@ -324,17 +324,52 @@ int main() {
 	temp = map.at(0);
 	int rowSize = temp.size();
 	int columnSize = map.size();
+	int prevRow = 0;
+	int prevColumn = 0;
+	int playerRow = 0;
+	int playerColumn = 0;
 	cords.resize(columnSize, vector<string>(rowSize, ""));
 	for (int i = 0; i < columnSize; i++) {// i and j will act as you would x and y cords
 		temp = map.at(i);
 		for (int j = 0; j < temp.size(); j++) {
 			cords.at(i).at(j) = temp.at(j);
+			if (cords.at(i).at(j) == "?") {
+				playerRow = j;
+				playerColumn = i;
+			}
 		}
 	}
 	cout << "row size " << rowSize << endl;
 	cout << "column size" << columnSize << endl;
-	displayMap(cords, columnSize, rowSize);
-	riddles3();
+	displayMap(cords);
+	cout << "player location: " << playerRow << "    " << playerColumn << endl;
+	set_raw_mode(true);
+	show_cursor(false);
+	prevRow = playerRow;
+	prevColumn = playerColumn;
+	while (true) {
+		int m = toupper(quick_read());
+		if (m == 'W' || m == UP_ARROW) {
+			playerColumn--;
+		}
+		if (m == 'S' || m == DOWN_ARROW) {
+			playerColumn++;
+		}
+		if (m == 'A' || m == LEFT_ARROW) {
+			playerRow--;
+		}
+		if (m == 'D' || m == RIGHT_ARROW) {
+			playerRow++;
+		}
+		cords.at(playerColumn).at(playerRow) = "?";
+		cords.at(prevColumn).at(prevRow) = ".";
+		if (!(playerRow == prevRow && playerColumn == prevColumn)) {
+			clearscreen();
+			displayMap(cords);
+		}
+		prevRow = playerRow;
+		prevColumn = playerColumn;
+	}
 	//the line above ^ displays the whole map, for testing purpases only at the moment
 
 }
