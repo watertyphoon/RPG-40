@@ -301,6 +301,17 @@ void riddles3() {
 		}
 	}
 }
+string loreItems(int item) {//random items that the player will find scattered around the map that will hint to the world outside and your purpose
+	//1 is a chared notebook
+	if(item ==1) {
+	cout << "As you pick up the near blackedn notebook it crumbles to ashes" << endl;
+	cout << "The only thing being left behind a small piece of paper no bigger than a gold coin" << endl;
+	cout << "In that piece there is a couple words you can barely make out" << endl;
+	cout << "-est subje-" << endl;
+	cout << "Though you don't want to dwell on it too long and drop it to the floor and start leaving" << endl;
+	cout << "But no matter how much further you walk away you can't shake off the ominous feeling radiating deep from within your stomach" << endl;
+	}
+}
 
 int main() {
 	string temp;
