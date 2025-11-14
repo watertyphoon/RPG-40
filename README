@@ -4,8 +4,26 @@
 | |_) | |_) | |  _ _____| || |_| | | |
 |  _ <|  __/| |_| |_____|__   _| |_| |
 |_| \_\_|    \____|        |_|  \___/ 
-                                      
+TARIQ ALAWDI 
+-Roles not super clear but as of 11/7 just making some 
+functions to modfiy stats 
 ======================================
+
+Objectives:
+Algebra: we use a graph like system for movement
+Loop: are used all over, for example to assemble the map we use a nested for
+loop
+Branches: we each use our own branches to avoid as many merge conflicts as
+possible
+input/output: the player key presses are called into input and then the
+updated map with the updated player location is outputted
+Functions: our code is mainly functions but an example is that to keep main
+from getting too cluttered we made all the puzzles into functions
+Variables: we use a vector of vectors for the map as well as strings and ints
+respectively
+
+We also used classes to assmeble our classes hahaha, and to control their hp
+and inventory. 
 
 For this assignment, you will make a roleplaying game. 
 
