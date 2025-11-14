@@ -17,101 +17,86 @@
 //add dictionary later
 using namespace std;
 
+class Moves {
+	public:
+		string name;
+		string disc;
+		int cost;
+		int dmg;
+
+		Moves(string atkName = "Just Attack",  int mp = 0, int atk = 1, string atkDisc = "strike dealing ") {
+			name = atkName;
+			disc = atkDisc;
+			cost = mp;
+			dmg = atk;
+		}
+};
+
+class Player {
+	private:
+		//Private
+		int hp;
+		int maxHp; //to keep track of max hp so healing potions dont pass set max hp
+		int mp; //mana for attacks
+		int maxMp;
+	public:
+		//Public variables.
+		string name; //player name
+		string className;
+		char symbol;
+		vector<Moves> atk;
+		int def; //val incoming attacks are reduced by
+		int spd; //aka intitive
+
+		//Consturcter
+		Player(string playerName = "You", string playerClass = "knight") {
+			if(playerClass == "knight") {
+				symbol = 'K';
+				atk = {{"slash",0,5}, {"light atk",6,15}, {"Smite",10,30}};
+				hp = 150;
+				maxHp = hp;
+				def = 3;
+				spd = 3;
+				mp = 100;
+				maxMp = mp;
+			}
+			if(playerClass == "mage") {
+				symbol = 'M';
+				atk = {{"bonk",0,5}, {"magic missile",8,20}, {"FIREBALL",20,40}};
+				hp = 100;
+				maxHp = hp;
+				def = 2;
+				spd = 2;
+				mp = 150;
+				maxMp = mp;
+			}
+			if(playerClass == "puppet") {
+				symbol = 'P';
+				atk = {5, 12, 25};
+				hp = 120;
+				maxHp = hp;
+				def = 3;
+				spd = 4;
+				mp = 120;
+				maxMp = mp;
+			}
+			else {
+				className = "knight"
+				symbol = 'K';
+				atk = {5, 15, 30};
+				hp = 150;
+				maxHp = hp;
+				def = 3;
+				spd = 3;
+				mp = 100;
+				maxMp = mp;
+			}
+		}
+}
+
 //Banished Knight
 class Knight {
-  private:
-	bool isAlive;
-	string name; //player name
-	string className;
-	string characterSymbol;
-	int heavyAtk;
-	int lightAtk;
-	int baseAtk;
-	int hp;
-	int maxHP; //to keep track of max hp so healing potions dont pass set max hp
-	int def; // val incoming attacks are reduced by
-	int spd; //aka intitive
-	int mp;  //mana for attacks
-	int maxMP;
   public:
-	Knight(string playerName) {
-		isAlive = true;
-		name = playerName;
-		className = "Knight";
-		characterSymbol = "K";
-		heavyAtk = 30;
-		lightAtk = 15;
-		baseAtk = 5;
-		hp = 150;
-		maxHP = hp;
-		def = 3;
-		spd = 3;
-		mp = 100;
-		maxMP = mp;
-	}
-	void setName(string newName) {
-		name = newName;
-	}
-	void setHeavyAtk(int newHeavyAtk) {
-		heavyAtk = newHeavyAtk;
-	}
-	void setLightAtk(int newLightAtk) {
-		lightAtk = newLightAtk;
-	}
-	void setHP(int newHP) {
-		hp = newHP;
-	}
-	void setMaxHP(int newMaxHP) {
-		maxHP = newMaxHP;
-	}
-	void setDef(int newDef) {
-		def = newDef;
-	}
-	void setSpd(int newSpd) {
-		spd = newSpd;
-	}
-	void setMP(int newMP) {
-		mp = newMP;
-	}
-	void setMaxMP(int newMaxMP) {
-		maxMP = newMaxMP;
-	}
-	string getName() const {
-		return name;
-	}
-	string getClassName() {
-		return className;
-	}
-	string getCharacterSymbol() {
-		return characterSymbol;
-	}
-	int getHeavyAtk() {
-		return heavyAtk;
-	}
-	int getLightAtk() {
-		return lightAtk;
-	}
-	int getBaseAtk() {
-		return baseAtk;
-	}
-	int getHP() {
-		return hp;
-	}
-	int getMaxHP() {
-		return maxHP;
-	}
-	int getDef() {
-		return def;
-	}
-	int getSpd() {
-		return spd;
-	}
-	int getMP() {
-		return mp;
-	}
-	int getMaxMP() {
-		return maxMP;
-	}
 	bool heavyAtkMP() { //check if you have enough mana to do the attack
 		if (mp - 10 >= 0) {
 			mp -= 10;
@@ -126,110 +111,11 @@ class Knight {
 		}
 		return false;
 	}
-	void hurt(int damage) {
-		hp -= damage;
-		if (hp <= 0) {
-			isAlive = false; //needs to be implemented after fighting mechanic
-			// will just stop gameplay output "YOU DIED! GAME OVER" and quit the game
-		}
-	}
 };
 
 //Shadow Mage
 class Mage {
-  private:
-	bool isAlive;
-	string name; //player name
-	string className;
-	string characterSymbol;
-	int heavyAtk;
-	int lightAtk;
-	int baseAtk;
-	int hp;
-	int maxHP; //to keep track of max hp so healing potions dont pass set max hp
-	int def; // val incoming attacks are reduced by
-	int spd; //aka intitive
-	int mp;  //mana for attacks
-	int maxMP;
   public:
-	Mage(string playerName) {
-		isAlive = true;
-		name = playerName;
-		className = "Mage";
-		characterSymbol = "M";
-		heavyAtk = 40;
-		lightAtk = 20;
-		baseAtk = 5;
-		hp = 100;
-		maxHP = hp;
-		def = 2;
-		spd = 2;
-		mp = 150;
-		maxMP = mp;
-	}
-	void setName(string newName) {
-		name = newName;
-	}
-	void setHeavyAtk(int newHeavyAtk) {
-		heavyAtk = newHeavyAtk;
-	}
-	void setLightAtk(int newLightAtk) {
-		lightAtk = newLightAtk;
-	}
-	void setHP(int newHP) {
-		hp = newHP;
-	}
-	void setMaxHP(int newMaxHP) {
-		maxHP = newMaxHP;
-	}
-	void setDef(int newDef) {
-		def = newDef;
-	}
-	void setSpd(int newSpd) {
-		spd = newSpd;
-	}
-	void setMP(int newMP) {
-		mp = newMP;
-	}
-	void setMaxMP(int newMaxMP) {
-		maxMP = newMaxMP;
-	}
-	string getName() const {
-		return name;
-	}
-	string getClassName() {
-		return className;
-	}
-	string getCharacterSymbol() {
-		return characterSymbol;
-	}
-	int getHeavyAtk() {
-		return heavyAtk;
-	}
-	int getLightAtk() {
-		return lightAtk;
-	}
-	int getBaseAtk() {
-		return baseAtk;
-	}
-	int getHP() {
-		return hp;
-	}
-	int getMaxHP() {
-		return maxHP;
-	}
-	int getDef() {
-		return def;
-	}
-	int getSpd() {
-		return spd;
-	}
-	int getMP() {
-		return mp;
-	}
-	int getMaxMP() {
-		return maxMP;
-	}
 	bool heavyAtkMP() { //check if you have enough mana to do the attack
 		if (mp - 20 >= 0) {
 			mp -= 20;
@@ -244,31 +130,10 @@ class Mage {
 		}
 		return false;
 	}
-	void hurt(int damage) {
-		hp -= damage;
-		if (hp <= 0) {
-			isAlive = false; //needs to be implemented after fighting mechanic
-			// will just stop gameplay output "YOU DIED! GAME OVER" and quit the game
-		}
-	}
 };
 
 //Puppet
 class Puppet {
-  private:
-	bool isAlive;
-	string name; //player name
-	string className;
-	string characterSymbol;
-	int heavyAtk;
-	int lightAtk;
-	int baseAtk;
-	int hp;
-	int maxHP; //to keep track of max hp so healing potions dont pass set max hp
-	int def; // val incoming attacks are reduced by
-	int spd; //aka intitive
-	int mp;  //mana for attacks
-	int maxMP;
   public:
 	Puppet(string playerName) {
 		isAlive = true;
@@ -747,3 +612,4 @@ int main() {
 	//the line above ^ displays the whole map, for testing purpases only at the moment
 
 }
+
