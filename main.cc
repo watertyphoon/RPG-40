@@ -431,9 +431,9 @@ vector<string> mapCreation() {
 	return mapData;
 }
 
-void displayMap(vector <vector<string>> map, const int columns, const int rows) {//displays map....if other maps are made in a simalar fashion then this functions work with that as well
-	for (int i = 0; i < columns; i++) {
-		for (int j = 0; j < rows; j++) {
+void displayMap(vector<vector<string>> map) {//displays map....if other maps are made in a simalar fashion then this functions work with that as well
+	for (int i = 0; i < map.size(); i++) {
+		for (int j = 0; j < map.at(i).size(); j++) {
 			cout << map.at(i).at(j);
 		}
 		cout << endl;
@@ -605,7 +605,17 @@ void riddles3() {
 	}
 }
 
-
+void loreItems(int item) {//random items that the player will find scattered around the map that will hint to the world outside and your purpose
+	//1 is a chared notebook
+	if (item == 1) {
+		cout << "As you pick up the near blackedn notebook it crumbles to ashes" << endl;
+		cout << "The only thing being left behind a small piece of paper no bigger than a gold coin" << endl;
+		cout << "In that piece there is a couple words you can barely make out" << endl;
+		cout << "-est subje-" << endl;
+		cout << "Though you don't want to dwell on it too long and drop it to the floor and start leaving" << endl;
+		cout << "But no matter how much further you walk away you can't shake off the ominous feeling radiating deep from within your stomach" << endl;
+	}
+}
 
 void printSlowly(string s) {
 	for (char c : s) {
@@ -626,25 +636,33 @@ void quit() {
 
 int main() {
 	string temp;
-	vector <string> tempMap = mapCreation();
-	vector <vector <string>> map;//our new and improved map
+	vector <string> map = mapCreation();
+	vector <vector <string>> cords;//our new and improved map
 	/*for (int i = 0; i < map.size(); i++) { //keeping this here for now, for testing purposes
 		cout << map.at(i) << endl;
 	}*/
 	//babySudoku();
-	temp = tempMap.at(0);
-	const int ROWS = temp.size();
-	const int COLS = tempMap.size();
-	map.resize(COLS, vector<string>(ROWS, ""));
-	for (int i = 0; i < COLS; i++) {// i and j will act as you would x and y cords
-		temp = tempMap.at(i);
+	temp = map.at(0);
+	int rowSize = temp.size(); //const?
+	int columnSize = map.size(); // const?
+	int prevRow = 0;
+	int prevColumn = 0;
+	int playerRow = 0;
+	int playerColumn = 0;
+	int ecounters = 2;
+	cords.resize(columnSize, vector<string>(rowSize, ""));
+	for (int i = 0; i < columnSize; i++) {// i and j will act as you would x and y cords
+		temp = map.at(i);
 		for (int j = 0; j < temp.size(); j++) {
-			map.at(i).at(j) = temp.at(j);
+			cords.at(i).at(j) = temp.at(j);
+			if (cords.at(i).at(j) == "?") {
+				playerRow = j;
+				playerColumn = i;
+			}
 		}
 	}
-
 	show_cursor(false);
-	string name, temp2, choice;
+	string name, strtemp, choice; //name holds player name, strtemp hold temporary string to print slowly, and choice is the character class
 	printSlowly("You awake to a room you are unfamiliar with, missing your name and how you got here...");
 	cout << endl;
 	printSlowly("What name would like to go by?");
@@ -653,8 +671,8 @@ int main() {
 	cout << endl;
 	printSlowly("hmmm.");
 	cout << endl;
-	temp2 = name + ". It suits you, well alright " + name + " which class would you like to be?";
-	printSlowly(temp2);
+	strtemp = name + ". It suits you, well alright " + name + " which class would you like to be?";
+	printSlowly(strtemp);
 	cout << endl;
 	printSlowly("1) Knight");
 	cout << endl;
@@ -667,20 +685,20 @@ int main() {
 	cin >> choice;
 	cout << endl;
 	if (choice == "1") {
-		temp2 = "";
+		strtemp = "";
 		Knight player(name);
-		temp2 = "Good choice. You are going to be the " + player.getCharacterSymbol() + " , Good Luck!.";
-		printSlowly(temp2);
+		strtemp = "Good choice. You are going to be the " + player.getCharacterSymbol() + " , Good Luck!.";
+		printSlowly(strtemp);
 		cout << endl;
 	} else if (choice == "2") {
 		Mage player(name);
-		temp = "Good choice. You are going to be the " + player.getCharacterSymbol() + " , Good Luck!.";
-		printSlowly(temp);
+		strtemp = "Good choice. You are going to be the " + player.getCharacterSymbol() + " , Good Luck!.";
+		printSlowly(strtemp);
 		cout << endl;
 	} else if (choice == "3") {
 		Puppet player(name);
-		temp = "Good choice. You are going to be the " + player.getCharacterSymbol() + " , Good Luck!.";
-		printSlowly(temp);
+		strtemp = "Good choice. You are going to be the " + player.getCharacterSymbol() + " , Good Luck!.";
+		printSlowly(strtemp);
 		cout << endl;
 	} else {
 		quit();
@@ -689,6 +707,39 @@ int main() {
 	this_thread::sleep_for(chrono::milliseconds(2500));
 	movecursor(0, 0);
 	clearscreen();
+	cout << "row size " << rowSize << endl;
+	cout << "column size" << columnSize << endl;
+	displayMap(cords);
+	cout << "player location: " << playerRow << "    " << playerColumn << endl;
+	set_raw_mode(true);
+	show_cursor(false);
+	prevRow = playerRow;
+	prevColumn = playerColumn;
+	while (true) {
+		int m = toupper(quick_read());
+		if (m == 'W' || m == UP_ARROW) {
+			playerColumn--;
+		}
+		if (m == 'S' || m == DOWN_ARROW) {
+			playerColumn++;
+		}
+		if (m == 'A' || m == LEFT_ARROW) {
+			playerRow--;
+		}
+		if (m == 'D' || m == RIGHT_ARROW) {
+			playerRow++;
+		}
+		cords.at(playerColumn).at(playerRow) = "?";
+		cords.at(prevColumn).at(prevRow) = ".";
+		if (!(playerRow == prevRow && playerColumn == prevColumn)) {
+			clearscreen();
+			movecursor(0, 0);
+			displayMap(cords);
+		}
+		//ecounters = ecounters * 2;
+		prevRow = playerRow;
+		prevColumn = playerColumn;
+	}
 	//	cout << "row size " << ROWS << endl;
 //	cout << "column size" << COLS << endl;
 //	displayMap(map, COLS, ROWS);
