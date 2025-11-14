@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 //Fill out this comment with your names and which bullet points you did
 //Partners:
 //Bullet Points:
