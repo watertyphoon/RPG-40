@@ -48,6 +48,18 @@ class Player {
 		int def; //val incoming attacks are reduced by
 		int spd; //aka intitive
 
+		//Setters
+		void setHp(int newHp) {
+			hp = newHp;
+			if(hp > maxHp) {}
+		}
+		//Getters
+		bool isDead() {
+			return hp < 0;
+		}
+		//Functions/Methods
+		
+
 		//Consturcter
 		Player(string playerName = "You", string playerClass = "knight") {
 			if(playerClass == "knight") {
@@ -72,7 +84,7 @@ class Player {
 			}
 			if(playerClass == "puppet") {
 				symbol = 'P';
-				atk = {5, 12, 25};
+				atk = {{"desperation slap",0,5}, {"light atk",3,12}, {"heavy atk",8,25}};
 				hp = 120;
 				maxHp = hp;
 				def = 3;
@@ -83,7 +95,7 @@ class Player {
 			else {
 				className = "knight"
 				symbol = 'K';
-				atk = {5, 15, 30};
+				atk = {{"slash",0,5}, {"light atk",6,15}, {"Smite",10,30}};
 				hp = 150;
 				maxHp = hp;
 				def = 3;
@@ -95,147 +107,8 @@ class Player {
 }
 
 //Banished Knight
-class Knight {
-  public:
-	bool heavyAtkMP() { //check if you have enough mana to do the attack
-		if (mp - 10 >= 0) {
-			mp -= 10;
-			return true;
-		}
-		return false;
-	}
-	bool lightAtkMP() {
-		if (mp - 6 >= 0) {
-			mp -= 6;
-			return true;
-		}
-		return false;
-	}
-};
-
 //Shadow Mage
-class Mage {
-  public:
-	bool heavyAtkMP() { //check if you have enough mana to do the attack
-		if (mp - 20 >= 0) {
-			mp -= 20;
-			return true;
-		}
-		return false;
-	}
-	bool lightAtkMP() {
-		if (mp - 8 >= 0) {
-			mp -= 8;
-			return true;
-		}
-		return false;
-	}
-};
-
 //Puppet
-class Puppet {
-  public:
-	Puppet(string playerName) {
-		isAlive = true;
-		name = playerName;
-		className = "Puppet";
-		characterSymbol = "P";
-		heavyAtk = 25;
-		lightAtk = 12;
-		baseAtk = 5;
-		hp = 120;
-		maxHP = hp;
-		def = 3;
-		spd = 4;
-		mp = 120;
-		maxMP = mp;
-	}
-	void setName(string newName) {
-		name = newName;
-	}
-	void setHeavyAtk(int newHeavyAtk) {
-		heavyAtk = newHeavyAtk;
-	}
-	void setLightAtk(int newLightAtk) {
-		lightAtk = newLightAtk;
-	}
-	void setHP(int newHP) {
-		hp = newHP;
-	}
-	void setMaxHP(int newMaxHP) {
-		maxHP = newMaxHP;
-	}
-	void setDef(int newDef) {
-		def = newDef;
-	}
-	void setSpd(int newSpd) {
-		spd = newSpd;
-	}
-	void setMP(int newMP) {
-		mp = newMP;
-	}
-	void setMaxMP(int newMaxMP) {
-		maxMP = newMaxMP;
-	}
-	string getName() const {
-		return name;
-	}
-	string getClassName() {
-		return className;
-	}
-	string getCharacterSymbol() {
-		return characterSymbol;
-	}
-	int getHeavyAtk() {
-		return heavyAtk;
-	}
-	int getLightAtk() {
-		return lightAtk;
-	}
-	int getBaseAtk() {
-		return baseAtk;
-	}
-	int getHP() {
-		return hp;
-	}
-	int getMaxHP() {
-		return maxHP;
-	}
-	int getDef() {
-		return def;
-	}
-	int getSpd() {
-		return spd;
-	}
-	int getMP() {
-		return mp;
-	}
-	int getMaxMP() {
-		return maxMP;
-	}
-	bool heavyAtkMP() { //check if you have enough mana to do the attack
-		if (mp - 8 >= 0) {
-			mp -= 8;
-			return true;
-		}
-		return false;
-	}
-	bool lightAtkMP() {
-		if (mp - 3 >= 0) {
-			mp -= 3;
-			return true;
-		}
-		return false;
-	}
-	void hurt(int damage) {
-		hp -= damage;
-		if (hp <= 0) {
-			isAlive = false; //needs to be implemented after fighting mechanic
-			// will just stop gameplay output "YOU DIED! GAME OVER" and quit the game
-		}
-	}
-};
-
 
 /*lets say the character class has light attack of 5
 void lightAttack(Character& player, Character& enemy) {
@@ -612,4 +485,5 @@ int main() {
 	//the line above ^ displays the whole map, for testing purpases only at the moment
 
 }
+
 
