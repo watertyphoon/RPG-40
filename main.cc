@@ -51,13 +51,47 @@ class Player {
 		//Setters
 		void setHp(int newHp) {
 			hp = newHp;
-			if(hp > maxHp) {}
+			if(hp > maxHp) {
+				hp = maxHp;
+			}
+		}
+		void setMaxHp(int newMaxHp) {
+			maxHp = newMaxHp;
+			if(hp > maxHp) {
+				hp = maxHp;
+			}
+		}
+		void setMp(int newMp) {
+			mp = newMp;
+			if(mp > maxMp) {
+				mp = maxMp;
+			}
+		}
+		void setMaxHp(int newMaxMp) {
+			maxMp = newMaxMp;
+			if(mp > maxMp) {
+				mp = maxMp;
+			}
 		}
 		//Getters
+		int getHp() return hp;
+		int getMaxHp() return maxHp;
+		int getMp() return mp;
+		int getMaxMp() return maxMp;
 		bool isDead() {
 			return hp < 0;
 		}
 		//Functions/Methods
+		void hurt(int dmg) {
+			hp -= dmg;
+		}
+		void attack(Player target, int choice = 0) {
+			Moves move = atk.at(choice)
+			if(move.cost <= mp) {
+				target.hurt(move.dmg);
+				mp -= move.cost;
+			}
+		}
 		
 
 		//Consturcter
@@ -485,5 +519,6 @@ int main() {
 	//the line above ^ displays the whole map, for testing purpases only at the moment
 
 }
+
 
 
