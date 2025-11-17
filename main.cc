@@ -441,27 +441,24 @@ int main() {
 			}
 		}
 	}
+
+	clearscreen();
+	movecursor(0, 0);
 	show_cursor(false);
 	string name, strtemp, choice; //name holds player name, strtemp hold temporary string to print slowly, and choice is the character class
-	printSlowly("You awake to a room you are unfamiliar with, missing your name and how you got here...");
-	cout << endl;
-	printSlowly("What name would like to go by?");
-	cout << endl;
+	printSlowly("You awake to a room you are unfamiliar with, missing your name and how you got here...\n");
+	printSlowly("What name would like to go by?\n");
+	show_cursor(true);
 	cin >> name;
 	cout << endl;
-	printSlowly("hmmm.");
-	cout << endl;
-	strtemp = name + ". It suits you, well alright " + name + " which class would you like to be?";
+	show_cursor(false);
+	printSlowly("hmmm.\n");
+	strtemp = name + ". It suits you, well alright " + name + " which class would you like to be?\n";
 	printSlowly(strtemp);
-	cout << endl;
-	printSlowly("1) Knight");
-	cout << endl;
-	printSlowly("2) Mage");
-	cout << endl;
-	printSlowly("3) Puppet");
-	cout << endl;
-	printSlowly("(press 1, 2, 3, or any other key to quit)");
-	cout << endl;
+	printSlowly("1) Knight\n");
+	printSlowly("2) Mage\n");
+	printSlowly("3) Puppet\n");
+	printSlowly("(press 1, 2, 3, or any other key to quit)\n");
 	cin >> choice;
 	cout << endl;
 	if (choice == "1") {
@@ -527,6 +524,7 @@ int main() {
 	//the line above ^ displays the whole map, for testing purpases only at the moment
 
 }
+
 
 
 
