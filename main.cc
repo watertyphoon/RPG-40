@@ -453,8 +453,8 @@ int main() {
 	cout << endl;
 	show_cursor(false);
 	printSlowly("hmmm.\n");
-	strtemp = name + ". It suits you, well alright " + name + " which class would you like to be?\n";
-	printSlowly(strtemp);
+	//strtemp = name + ". It suits you, well alright " + name + " which class would you like to be?\n";
+	printSlowly(name + ". It suits you, well alright " + name + " which class would you like to be?\n");
 	printSlowly("1) Knight\n");
 	printSlowly("2) Mage\n");
 	printSlowly("3) Puppet\n");
@@ -524,6 +524,7 @@ int main() {
 	//the line above ^ displays the whole map, for testing purpases only at the moment
 
 }
+
 
 
 
