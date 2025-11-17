@@ -43,7 +43,7 @@ class Player {
 		//Public variables.
 		string name; //player name
 		string className;
-		char symbol;
+		string symbol;
 		vector<Moves> atk;
 		int def; //val incoming attacks are reduced by
 		int spd; //aka intitive
@@ -97,7 +97,7 @@ class Player {
 		//Consturcter
 		Player(string playerName = "You", string playerClass = "knight") {
 			if(playerClass == "knight") {
-				symbol = 'K';
+				symbol = "K";
 				atk = {{"slash",0,5}, {"light atk",6,15}, {"Smite",10,30}};
 				hp = 150;
 				maxHp = hp;
@@ -107,7 +107,7 @@ class Player {
 				maxMp = mp;
 			}
 			if(playerClass == "mage") {
-				symbol = 'M';
+				symbol = "M";
 				atk = {{"bonk",0,5}, {"magic missile",8,20}, {"FIREBALL",20,40}};
 				hp = 100;
 				maxHp = hp;
@@ -117,7 +117,7 @@ class Player {
 				maxMp = mp;
 			}
 			if(playerClass == "puppet") {
-				symbol = 'P';
+				symbol = "P";
 				atk = {{"desperation slap",0,5}, {"light atk",3,12}, {"heavy atk",8,25}};
 				hp = 120;
 				maxHp = hp;
@@ -128,7 +128,7 @@ class Player {
 			}
 			else {
 				className = "knight"
-				symbol = 'K';
+				symbol = "K";
 				atk = {{"slash",0,5}, {"light atk",6,15}, {"Smite",10,30}};
 				hp = 150;
 				maxHp = hp;
@@ -458,18 +458,18 @@ int main() {
 	cout << endl;
 	if (choice == "1") {
 		strtemp = "";
-		Knight player(name);
-		strtemp = "Good choice. You are going to be the " + player.getCharacterSymbol() + " , Good Luck!.";
+		Player player(name, "knight");
+		strtemp = "Good choice. You are going to be the " + player.symbol + " , Good Luck!.";
 		printSlowly(strtemp);
 		cout << endl;
 	} else if (choice == "2") {
-		Mage player(name);
-		strtemp = "Good choice. You are going to be the " + player.getCharacterSymbol() + " , Good Luck!.";
+		Player player(name, "mage");
+		strtemp = "Good choice. You are going to be the " + player.symbol + " , Good Luck!.";
 		printSlowly(strtemp);
 		cout << endl;
 	} else if (choice == "3") {
-		Puppet player(name);
-		strtemp = "Good choice. You are going to be the " + player.getCharacterSymbol() + " , Good Luck!.";
+		Player player(name, "puppet");
+		strtemp = "Good choice. You are going to be the " + player.symbol + " , Good Luck!.";
 		printSlowly(strtemp);
 		cout << endl;
 	} else {
@@ -519,6 +519,7 @@ int main() {
 	//the line above ^ displays the whole map, for testing purpases only at the moment
 
 }
+
 
 
 
