@@ -67,17 +67,25 @@ class Player {
 				mp = maxMp;
 			}
 		}
-		void setMaxHp(int newMaxMp) {
+		void setMaxMp(int newMaxMp) {
 			maxMp = newMaxMp;
 			if(mp > maxMp) {
 				mp = maxMp;
 			}
 		}
 		//Getters
-		int getHp() return hp;
-		int getMaxHp() return maxHp;
-		int getMp() return mp;
-		int getMaxMp() return maxMp;
+		int getHp() {
+			return hp;
+		}
+		int getMaxHp() {
+			return maxHp;
+		}
+		int getMp() {
+			return mp;
+		}
+		int getMaxMp() {
+			return maxMp;
+		}
 		bool isDead() {
 			return hp < 0;
 		}
@@ -519,6 +527,7 @@ int main() {
 	//the line above ^ displays the whole map, for testing purpases only at the moment
 
 }
+
 
 
 
