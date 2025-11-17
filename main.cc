@@ -67,17 +67,25 @@ class Player {
 				mp = maxMp;
 			}
 		}
-		void setMaxHp(int newMaxMp) {
+		void setMaxMp(int newMaxMp) {
 			maxMp = newMaxMp;
 			if(mp > maxMp) {
 				mp = maxMp;
 			}
 		}
 		//Getters
-		int getHp() return hp;
-		int getMaxHp() return maxHp;
-		int getMp() return mp;
-		int getMaxMp() return maxMp;
+		int getHp() {
+			return hp;
+		}
+		int getMaxHp() {
+			return maxHp;
+		}
+		int getMp() {
+			return mp;
+		}
+		int getMaxMp() {
+			return maxMp;
+		}
 		bool isDead() {
 			return hp < 0;
 		}
@@ -86,7 +94,7 @@ class Player {
 			hp -= dmg;
 		}
 		void attack(Player target, int choice = 0) {
-			Moves move = atk.at(choice)
+			Moves move = atk.at(choice);
 			if(move.cost <= mp) {
 				target.hurt(move.dmg);
 				mp -= move.cost;
@@ -127,7 +135,7 @@ class Player {
 				maxMp = mp;
 			}
 			else {
-				className = "knight"
+				className = "knight";
 				symbol = "K";
 				atk = {{"slash",0,5}, {"light atk",6,15}, {"Smite",10,30}};
 				hp = 150;
@@ -138,7 +146,7 @@ class Player {
 				maxMp = mp;
 			}
 		}
-}
+};
 
 //Banished Knight
 //Shadow Mage
@@ -519,6 +527,10 @@ int main() {
 	//the line above ^ displays the whole map, for testing purpases only at the moment
 
 }
+
+
+
+
 
 
 
