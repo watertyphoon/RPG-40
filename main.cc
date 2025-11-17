@@ -138,7 +138,7 @@ class Player {
 				maxMp = mp;
 			}
 		}
-}
+};
 
 //Banished Knight
 //Shadow Mage
@@ -519,6 +519,7 @@ int main() {
 	//the line above ^ displays the whole map, for testing purpases only at the moment
 
 }
+
 
 
 
