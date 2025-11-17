@@ -135,7 +135,7 @@ class Player {
 				maxMp = mp;
 			}
 			else {
-				className = "knight"
+				className = "knight";
 				symbol = "K";
 				atk = {{"slash",0,5}, {"light atk",6,15}, {"Smite",10,30}};
 				hp = 150;
@@ -527,6 +527,7 @@ int main() {
 	//the line above ^ displays the whole map, for testing purpases only at the moment
 
 }
+
 
 
 
