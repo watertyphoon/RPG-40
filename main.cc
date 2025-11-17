@@ -445,7 +445,8 @@ int main() {
 	clearscreen();
 	movecursor(0, 0);
 	show_cursor(false);
-	string name, strtemp, choice; //name holds player name, strtemp hold temporary string to print slowly, and choice is the character class
+	string name; //name holds player name, strtemp hold temporary string to print slowly, and choice is the character class
+	int choice = -1;
 	printSlowly("You awake to a room you are unfamiliar with, missing your name and how you got here...\n");
 	printSlowly("What name would like to go by?\n");
 	show_cursor(true);
@@ -461,26 +462,15 @@ int main() {
 	printSlowly("(press 1, 2, 3, or any other key to quit)\n");
 	cin >> choice;
 	cout << endl;
-	if (choice == "1") {
-		strtemp = "";
-		Player player(name, "knight");
-		strtemp = "Good choice. You are going to be the " + player.symbol + " , Good Luck!.";
-		printSlowly(strtemp);
-		cout << endl;
-	} else if (choice == "2") {
-		Player player(name, "mage");
-		strtemp = "Good choice. You are going to be the " + player.symbol + " , Good Luck!.";
-		printSlowly(strtemp);
-		cout << endl;
-	} else if (choice == "3") {
-		Player player(name, "puppet");
-		strtemp = "Good choice. You are going to be the " + player.symbol + " , Good Luck!.";
-		printSlowly(strtemp);
-		cout << endl;
-	} else {
-		quit();
-	}
+	if(!cin || choice > 3) quit();
+	
+	vector<string> choiceHolder = {"knight", "mage", "puppet"}
+	Player player(name, choiceHolder.at(choice - 1));
+	strtemp = "Good choice. You are going to be the " + player.symbol + " , Good Luck!.";
+	printSlowly(strtemp);
+	cout << endl;
 
+	
 	this_thread::sleep_for(chrono::milliseconds(2500));
 	movecursor(0, 0);
 	clearscreen();
@@ -524,6 +514,7 @@ int main() {
 	//the line above ^ displays the whole map, for testing purpases only at the moment
 
 }
+
 
 
 
