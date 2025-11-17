@@ -464,7 +464,7 @@ int main() {
 	cout << endl;
 	if(!cin || choice > 3) quit();
 	
-	vector<string> choiceHolder = {"knight", "mage", "puppet"}
+	vector<string> choiceHolder = {"knight", "mage", "puppet"};
 	Player player(name, choiceHolder.at(choice - 1));
 	strtemp = "Good choice. You are going to be the " + player.symbol + " , Good Luck!.";
 	printSlowly(strtemp);
@@ -514,6 +514,7 @@ int main() {
 	//the line above ^ displays the whole map, for testing purpases only at the moment
 
 }
+
 
 
 
