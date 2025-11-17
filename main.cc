@@ -94,7 +94,7 @@ class Player {
 			hp -= dmg;
 		}
 		void attack(Player target, int choice = 0) {
-			Moves move = atk.at(choice)
+			Moves move = atk.at(choice);
 			if(move.cost <= mp) {
 				target.hurt(move.dmg);
 				mp -= move.cost;
@@ -527,6 +527,7 @@ int main() {
 	//the line above ^ displays the whole map, for testing purpases only at the moment
 
 }
+
 
 
 
