@@ -18,134 +18,131 @@
 using namespace std;
 
 class Moves {
-	public:
-		string name;
-		string disc;
-		int cost;
-		int dmg;
+  public:
+	string name;
+	string disc;
+	int cost;
+	int dmg;
 
-		Moves(string atkName = "Just Attack",  int mp = 0, int atk = 1, string atkDisc = "strike dealing ") {
-			name = atkName;
-			disc = atkDisc;
-			cost = mp;
-			dmg = atk;
-		}
+	Moves(string atkName = "Just Attack",  int mp = 0, int atk = 1, string atkDisc = "strike dealing ") {
+		name = atkName;
+		disc = atkDisc;
+		cost = mp;
+		dmg = atk;
+	}
 };
 
 class Player {
-	private:
-		//Private
-		int hp;
-		int maxHp; //to keep track of max hp so healing potions dont pass set max hp
-		int mp; //mana for attacks
-		int maxMp;
-	public:
-		//Public variables.
-		string name; //player name
-		string className;
-		string symbol;
-		vector<Moves> atk;
-		int def; //val incoming attacks are reduced by
-		int spd; //aka intitive
+  private:
+	//Private
+	int hp;
+	int maxHp; //to keep track of max hp so healing potions dont pass set max hp
+	int mp; //mana for attacks
+	int maxMp;
+  public:
+	//Public variables.
+	string name; //player name
+	string className;
+	string symbol;
+	vector<Moves> atk;
+	int def; //val incoming attacks are reduced by
+	int spd; //aka intitive
 
-		//Setters
-		void setHp(int newHp) {
-			hp = newHp;
-			if(hp > maxHp) {
-				hp = maxHp;
-			}
+	//Setters
+	void setHp(int newHp) {
+		hp = newHp;
+		if (hp > maxHp) {
+			hp = maxHp;
 		}
-		void setMaxHp(int newMaxHp) {
-			maxHp = newMaxHp;
-			if(hp > maxHp) {
-				hp = maxHp;
-			}
+	}
+	void setMaxHp(int newMaxHp) {
+		maxHp = newMaxHp;
+		if (hp > maxHp) {
+			hp = maxHp;
 		}
-		void setMp(int newMp) {
-			mp = newMp;
-			if(mp > maxMp) {
-				mp = maxMp;
-			}
+	}
+	void setMp(int newMp) {
+		mp = newMp;
+		if (mp > maxMp) {
+			mp = maxMp;
 		}
-		void setMaxMp(int newMaxMp) {
-			maxMp = newMaxMp;
-			if(mp > maxMp) {
-				mp = maxMp;
-			}
+	}
+	void setMaxMp(int newMaxMp) {
+		maxMp = newMaxMp;
+		if (mp > maxMp) {
+			mp = maxMp;
 		}
-		//Getters
-		int getHp() {
-			return hp;
+	}
+	//Getters
+	int getHp() {
+		return hp;
+	}
+	int getMaxHp() {
+		return maxHp;
+	}
+	int getMp() {
+		return mp;
+	}
+	int getMaxMp() {
+		return maxMp;
+	}
+	bool isDead() {
+		return hp < 0;
+	}
+	//Functions/Methods
+	void hurt(int dmg) {
+		hp -= dmg;
+	}
+	void attack(Player target, int choice = 0) {
+		Moves move = atk.at(choice);
+		if (move.cost <= mp) {
+			target.hurt(move.dmg);
+			mp -= move.cost;
 		}
-		int getMaxHp() {
-			return maxHp;
-		}
-		int getMp() {
-			return mp;
-		}
-		int getMaxMp() {
-			return maxMp;
-		}
-		bool isDead() {
-			return hp < 0;
-		}
-		//Functions/Methods
-		void hurt(int dmg) {
-			hp -= dmg;
-		}
-		void attack(Player target, int choice = 0) {
-			Moves move = atk.at(choice);
-			if(move.cost <= mp) {
-				target.hurt(move.dmg);
-				mp -= move.cost;
-			}
-		}
-		
+	}
 
-		//Consturcter
-		Player(string playerName = "You", string playerClass = "knight") {
-			if(playerClass == "knight") {
-				symbol = "K";
-				atk = {{"slash",0,5}, {"light atk",6,15}, {"Smite",10,30}};
-				hp = 150;
-				maxHp = hp;
-				def = 3;
-				spd = 3;
-				mp = 100;
-				maxMp = mp;
-			}
-			if(playerClass == "mage") {
-				symbol = "M";
-				atk = {{"bonk",0,5}, {"magic missile",8,20}, {"FIREBALL",20,40}};
-				hp = 100;
-				maxHp = hp;
-				def = 2;
-				spd = 2;
-				mp = 150;
-				maxMp = mp;
-			}
-			if(playerClass == "puppet") {
-				symbol = "P";
-				atk = {{"desperation slap",0,5}, {"light atk",3,12}, {"heavy atk",8,25}};
-				hp = 120;
-				maxHp = hp;
-				def = 3;
-				spd = 4;
-				mp = 120;
-				maxMp = mp;
-			}
-			else {
-				className = "knight";
-				symbol = "K";
-				atk = {{"slash",0,5}, {"light atk",6,15}, {"Smite",10,30}};
-				hp = 150;
-				maxHp = hp;
-				def = 3;
-				spd = 3;
-				mp = 100;
-				maxMp = mp;
-			}
+
+	//Consturcter
+	Player(string playerName = "You", string playerClass = "knight") {
+		if (playerClass == "1") {
+			symbol = "K";
+			atk = {{"slash", 0, 5}, {"light atk", 6, 15}, {"Smite", 10, 30}};
+			hp = 150;
+			maxHp = hp;
+			def = 3;
+			spd = 3;
+			mp = 100;
+			maxMp = mp;
+		} else if (playerClass == "2") { //if -> else if when player picks 2 the last else statement executes and makes him a knight instead
+			symbol = "M";
+			atk = {{"bonk", 0, 5}, {"magic missile", 8, 20}, {"FIREBALL", 20, 40}};
+			hp = 100;
+			maxHp = hp;
+			def = 2;
+			spd = 2;
+			mp = 150;
+			maxMp = mp;
+		} else if (playerClass == "3") {
+			symbol = "P";
+			atk = {{"desperation slap", 0, 5}, {"light atk", 3, 12}, {"heavy atk", 8, 25}};
+			hp = 120;
+			maxHp = hp;
+			def = 3;
+			spd = 4;
+			mp = 120;
+			maxMp = mp;
+		} else {
+			className = "knight";
+			symbol = "K";
+			atk = {{"slash", 0, 5}, {"light atk", 6, 15}, {"Smite", 10, 30}};
+			hp = 150;
+			maxHp = hp;
+			def = 3;
+			spd = 3;
+			mp = 100;
+			maxMp = mp;
 		}
+	}
 };
 
 //Banished Knight
@@ -198,7 +195,7 @@ void menu(const Character& player) { //placeholder function will expand upon fur
 */
 vector<string> mapCreation() {
 	vector <string> mapData;
-	ifstream map("Maps.csv");
+	ifstream map("mazetest.txt");
 	string temp;
 	while (map >> temp) {
 		for (int i = 0; i < temp.size(); i++) {
@@ -412,7 +409,7 @@ void quit() {
 
 
 
-
+enum playersIntialPosition {STARTxCORD = 49, STARTyCORD = 48};
 
 int main() {
 	string temp;
@@ -423,24 +420,13 @@ int main() {
 	}*/
 	//babySudoku();
 	temp = map.at(0);
-	int rowSize = temp.size(); //const?
-	int columnSize = map.size(); // const?
+	int rowSize = temp.size(); //aka # of cols
+	int columnSize = map.size(); // aka # of rows
 	int prevRow = 0;
 	int prevColumn = 0;
-	int playerRow = 0;
-	int playerColumn = 0;
+	int playerRow = STARTyCORD;
+	int playerColumn = STARTxCORD;
 	int ecounters = 2;
-	cords.resize(columnSize, vector<string>(rowSize, ""));
-	for (int i = 0; i < columnSize; i++) {// i and j will act as you would x and y cords
-		temp = map.at(i);
-		for (int j = 0; j < temp.size(); j++) {
-			cords.at(i).at(j) = temp.at(j);
-			if (cords.at(i).at(j) == "?") {
-				playerRow = j;
-				playerColumn = i;
-			}
-		}
-	}
 	show_cursor(false);
 	string name, strtemp, choice; //name holds player name, strtemp hold temporary string to print slowly, and choice is the character class
 	printSlowly("You awake to a room you are unfamiliar with, missing your name and how you got here...");
@@ -463,58 +449,77 @@ int main() {
 	printSlowly("(press 1, 2, 3, or any other key to quit)");
 	cout << endl;
 	cin >> choice;
-	cout << endl;
-	if (choice == "1") {
-		strtemp = "";
-		Player player(name, "knight");
-		strtemp = "Good choice. You are going to be the " + player.symbol + " , Good Luck!.";
-		printSlowly(strtemp);
-		cout << endl;
-	} else if (choice == "2") {
-		Player player(name, "mage");
-		strtemp = "Good choice. You are going to be the " + player.symbol + " , Good Luck!.";
-		printSlowly(strtemp);
-		cout << endl;
-	} else if (choice == "3") {
-		Player player(name, "puppet");
-		strtemp = "Good choice. You are going to be the " + player.symbol + " , Good Luck!.";
-		printSlowly(strtemp);
-		cout << endl;
-	} else {
+	if (!cin || (choice != "1" && choice != "2" && choice != "3")) {
 		quit();
 	}
-
+	cout << endl;
+	Player player(name, choice);
+	strtemp = "";
+	strtemp = "Good choice. You are going to be the (" + player.symbol + "), Good Luck!.";
+	printSlowly(strtemp);
+	cout << endl;
+	/*	if (choice == "1") {
+			strtemp = "";
+			Player player(name, "knight");
+			strtemp = "Good choice. You are going to be the " + player.symbol + " , Good Luck!.";
+			printSlowly(strtemp);
+			cout << endl;
+		} else if (choice == "2") {
+			Player player(name, "mage");
+			strtemp = "Good choice. You are going to be the " + player.symbol + " , Good Luck!.";
+			printSlowly(strtemp);
+			cout << endl;
+		} else if (choice == "3") {
+			Player player(name, "puppet");
+			strtemp = "Good choice. You are going to be the " + player.symbol + " , Good Luck!.";
+			printSlowly(strtemp);
+			cout << endl;
+		} else {
+			quit();
+		}
+	*/
 	this_thread::sleep_for(chrono::milliseconds(2500));
+
 	movecursor(0, 0);
 	clearscreen();
-	cout << "row size " << rowSize << endl;
-	cout << "column size" << columnSize << endl;
+	cords.resize(columnSize, vector<string>(rowSize, ""));
+	for (int i = 0; i < columnSize; i++) {// i (y-cord/row) and j (x-cord/col) will act as you would x and y cords
+		temp = map.at(i);
+		for (int j = 0; j < temp.size(); j++) {
+			cords.at(i).at(j) = temp.at(j);
+		}
+	}
+	cords.at(playerRow).at(playerColumn) = player.symbol;
+//	cout << "number of columns: " << rowSize << endl;
+//	cout << "number of rows: " << columnSize << endl;
 	displayMap(cords);
-	cout << "player location: " << playerRow << "    " << playerColumn << endl;
+	cout << "player location: " << playerColumn << "    " << playerRow << endl; //x,y
 	set_raw_mode(true);
 	show_cursor(false);
 	prevRow = playerRow;
 	prevColumn = playerColumn;
 	while (true) {
 		int m = toupper(quick_read());
-		if (m == 'W' || m == UP_ARROW) {
+		if ((cords.at(playerRow - 1).at(playerColumn) == ".") && (m == 'W' || m == UP_ARROW)) {
+			playerRow--; //algebra just checks if its a movable square aka "." if not then you cant cross
+		}
+		if ((cords.at(playerRow + 1).at(playerColumn) == ".") && (m == 'S' || m == DOWN_ARROW)) {
+			playerRow++; //rows are y cord row++ = ⬆️
+		}
+		if ((cords.at(playerRow).at(playerColumn - 1) == ".") && (m  == 'A' || m == LEFT_ARROW)) {
 			playerColumn--;
 		}
-		if (m == 'S' || m == DOWN_ARROW) {
-			playerColumn++;
+		if ((cords.at(playerRow).at(playerColumn + 1) == ".") && (m == 'D' || m == RIGHT_ARROW)) {
+			playerColumn++; //cols are x cord  col++ = ->
 		}
-		if (m == 'A' || m == LEFT_ARROW) {
-			playerRow--;
-		}
-		if (m == 'D' || m == RIGHT_ARROW) {
-			playerRow++;
-		}
-		cords.at(playerColumn).at(playerRow) = "?";
-		cords.at(prevColumn).at(prevRow) = ".";
+		cords.at(playerRow).at(playerColumn) = player.symbol; //updated .at(x cord).at(y cord) x-> row y-> col
+		cords.at(prevRow).at(prevColumn) = "."; // ^^^^ same
 		if (!(playerRow == prevRow && playerColumn == prevColumn)) {
 			clearscreen();
 			movecursor(0, 0);
 			displayMap(cords);
+			cout << "player location: " << playerColumn << "    " << playerRow << endl; //x,y
+			//cout << "[" << cords.at(playerColumn).at(playerRow + 1) << "]";
 		}
 		//ecounters = ecounters * 2;
 		prevRow = playerRow;
