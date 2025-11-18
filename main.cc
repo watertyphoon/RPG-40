@@ -14,198 +14,22 @@
 #include <sstream>
 #include <string>
 #include <cctype>
+#include "toolbox.h"
 //add dictionary later
 using namespace std;
 
-class Moves {
-  public:
-	string name;
-	string disc;
-	int cost;
-	int dmg;
 
-	Moves(string atkName = "Just Attack",  int mp = 0, int atk = 1, string atkDisc = "strike dealing ") {
-		name = atkName;
-		disc = atkDisc;
-		cost = mp;
-		dmg = atk;
-	}
-};
-
-class Player {
-  private:
-	//Private
-	int hp;
-	int maxHp; //to keep track of max hp so healing potions dont pass set max hp
-	int mp; //mana for attacks
-	int maxMp;
-  public:
-	//Public variables.
-	string name; //player name
-	string className;
-	string symbol;
-	vector<Moves> atk;
-	int def; //val incoming attacks are reduced by
-	int spd; //aka intitive
-
-	//Setters
-	void setHp(int newHp) {
-		hp = newHp;
-		if (hp > maxHp) {
-			hp = maxHp;
-		}
-	}
-	void setMaxHp(int newMaxHp) {
-		maxHp = newMaxHp;
-		if (hp > maxHp) {
-			hp = maxHp;
-		}
-	}
-	void setMp(int newMp) {
-		mp = newMp;
-		if (mp > maxMp) {
-			mp = maxMp;
-		}
-	}
-	void setMaxMp(int newMaxMp) {
-		maxMp = newMaxMp;
-		if (mp > maxMp) {
-			mp = maxMp;
-		}
-	}
-	//Getters
-	int getHp() {
-		return hp;
-	}
-	int getMaxHp() {
-		return maxHp;
-	}
-	int getMp() {
-		return mp;
-	}
-	int getMaxMp() {
-		return maxMp;
-	}
-	bool isDead() {
-		return hp < 0;
-	}
-	//Functions/Methods
-	void hurt(int dmg) {
-		hp -= dmg;
-	}
-	void attack(Player target, int choice = 0) {
-		Moves move = atk.at(choice);
-		if (move.cost <= mp) {
-			target.hurt(move.dmg);
-			mp -= move.cost;
-		}
-	}
-
-
-	//Consturcter
-	Player(string playerClass = "knight") {
-		if (playerClass == "knight") {
-			symbol = "K";
-			atk = {{"slash", 0, 5}, {"light atk", 6, 15}, {"Smite", 10, 30}};
-			hp = 150;
-			maxHp = hp;
-			def = 3;
-			spd = 3;
-			mp = 100;
-			maxMp = mp;
-		} else if (playerClass == "mage") {
-			symbol = "M";
-			atk = {{"bonk", 0, 5}, {"magic missile", 8, 20}, {"FIREBALL", 20, 40}};
-			hp = 100;
-			maxHp = hp;
-			def = 2;
-			spd = 2;
-			mp = 150;
-			maxMp = mp;
-		} else if (playerClass == "puppet") {
-			symbol = "P";
-			atk = {{"desperation slap", 0, 5}, {"light atk", 3, 12}, {"heavy atk", 8, 25}};
-			hp = 120;
-			maxHp = hp;
-			def = 3;
-			spd = 4;
-			mp = 120;
-			maxMp = mp;
-		} else {
-			className = "knight";
-			symbol = "K";
-			atk = {{"slash", 0, 5}, {"light atk", 6, 15}, {"Smite", 10, 30}};
-			hp = 150;
-			maxHp = hp;
-			def = 3;
-			spd = 3;
-			mp = 100;
-			maxMp = mp;
-		}
-	}
-};
-
-//Banished Knight
-//Shadow Mage
-//Puppet
-
-/*lets say the character class has light attack of 5
-void lightAttack(Character& player, Character& enemy) {
-	cout << "You sent out a light Attack!\n";
-	cout << "You did 5 attack damage to " << enemy.name << endl;
-	enemy.hurt(5);
-}
-
-
-//lets say the character class has light attack of 8
-void heavyAttack(Character& player, Character& enemy) {
-	cout << "You sent out a heavy Attack!\n";
-	cout << "You did 8 attack damage to " << enemy.name << endl;
-	enemy.hurt(8);
-}
-
-
-void menu(const Character& player) { //placeholder function will expand upon further later...
-	int temp;
-	cout << "1) Stats (press 1)\n";
-	cout << "2) Inventory (press 2)\n";
-	cout << "3) Quit (press 3)\n";
-	set_raw_mode(false);
-	while (true) {
-		cin >> temp;
-		clearscreen();
-		movecursor(0, 0);
-		if (temp == 1) { //waiting for the character class to be uploaded :p
-			cout << "Name: " << player.name << endl;
-			//cout << "Class: " << player.class << endl; //needs to be implemented, just return string of the class type "Knight"
-			//cout << "HP: " << player.getHP() "/" << player.getMaxHp() << endl;
-			//cout << "Defense: " << player.getDef() << endl;
-			//cout << "Speed: " << player.getSpd() << endl; //needs to be implemented
-		} else if (temp == 2) {
-			cout << "Items in Inventory: \n";
-			cout << "1) Map\n";
-			//cout << "2) " << player.getWeapon() << endl; //needs to be implemented
-			cout << "3) Healing Potion (+5 HP)" << endl;
-		} else {
-			break;
-		}
-	}
-
-}
-*/
 vector<string> mapCreation() {
-	vector <string> mapData;
 	ifstream map("Maps.csv");
-	string temp;
-	while (map >> temp) {
-		for (int i = 0; i < temp.size(); i++) {
-			if (temp.find(",") != string::npos) {
-				temp.replace(temp.find(","), 1, "");
-			}
-		}
-		mapData.push_back(temp);
+	if(!map) {
+		cout << "Bad file" << endl;
+		return 0;
 	}
-	return mapData;
+
+	vector
+	while (true) {
+		
+	}
 }
 
 void displayMap(vector<vector<string>> map) {//displays map....if other maps are made in a simalar fashion then this functions work with that as well
