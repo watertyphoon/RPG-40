@@ -14,6 +14,8 @@
 #include <sstream>
 #include <string>
 #include <cctype>
+#include <cstdlib>
+#include <ctime>
 //add dictionary later
 using namespace std;
 
@@ -382,6 +384,121 @@ void riddles3() {
 	}
 }
 
+void BoltorbFlip() {
+	int bombsLeft = 6;
+	int bombs = 0;
+	int row = 0;
+	int column = 0;
+	int twoCoins = 2;
+	int threeCoins = 2;
+	int temp = 0;
+	int userRow = 0;
+	int userColumn = 0;
+	int add = 1;
+	srand(time(0));
+	vector <vector <string>> board = {
+		{" ", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "💣"},//wach row is size 14 but goes up to 13
+		{"|", "x", " ", "x", " ", "x", " ", "x", " ", "x", "|", "5", "|", " "},//columns are of size 10 but 9
+		{"|", "x", " ", "x", " ", "x", " ", "x", " ", "x", "|", "5", "|", " "},
+		{"|", "x", " ", "x", " ", "x", " ", "x", " ", "x", "|", "5", "|", " "},
+		{"|", "x", " ", "x", " ", "x", " ", "x", " ", "x", "|", "5", "|", " "},
+		{"|", "x", " ", "x", " ", "x", " ", "x", " ", "x", "|", "5", "|", " "},
+		{" ", "-", "-", "-", "-", "-", "-", "-", "-", "-", " ", " ", " ", " "},
+		{" ", "5", " ", "5", " ", "5", " ", "5", " ", "5", " ", " ", " ", " "},
+		{" ", "-", "-", "-", "-", "-", "-", "-", "-", "-", " ", " ", " ", " "},
+		{" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "💣"}
+	};
+	vector <vector <int>> hiddenBoard = {
+		{1, 1, 1, 1, 1},
+		{1, 1, 1, 1, 1},
+		{1, 1, 1, 1, 1},
+		{1, 1, 1, 1, 1},
+		{1, 1, 1, 1, 1},
+	};
+	while (bombsLeft > 0) { //assigning bomb locations
+		row = rand() % 5;
+		column = rand() % 5;
+		if (hiddenBoard.at(column).at(row) == 0) {
+			continue;
+		} else {
+			hiddenBoard.at(column).at(row) = 0;
+			bombsLeft -= 1;
+		}
+	}
+
+	while (twoCoins > 0 && threeCoins > 0) {//assgins 2 and 3 coin locations
+		row = rand() % 5;
+		column = rand() % 5;
+		if (hiddenBoard.at(column).at(row) == 2 || hiddenBoard.at(column).at(row) == 3 || hiddenBoard.at(column).at(row) == 0) {
+			continue;//this checks if a coin or bomb is already there
+		} else {
+			temp = rand() % 2;
+			if (temp == 0 && twoCoins != 0) {
+				hiddenBoard.at(column).at(row) = 2;
+				twoCoins -= 1;
+			} else if (temp == 1 && threeCoins != 0) {
+				hiddenBoard.at(column).at(row) = 3;
+				threeCoins -= 1;
+			}
+		}
+	}
+
+	bombs = 0;
+
+	for (int i = 0; i < hiddenBoard.size(); i++) {//establishes the "hints" on the sides
+		for (int j = 0; j < hiddenBoard.at(i).size(); j++) {
+			temp += hiddenBoard.at(i).at(j);
+			if (hiddenBoard.at(i).at(j) == 0) {
+				bombs += 1;
+			}
+		}
+		board.at(i + 1).at(11) = to_string(temp);
+		board.at(i + 1).at(13) = to_string(bombs);
+		temp = 0;
+		bombs = 0;
+		for (int k = 0; k < hiddenBoard.size(); k++) {//establishes the hints at the bottom of the board
+			temp += hiddenBoard.at(k).at(i);
+			if (hiddenBoard.at(k).at(i) == 0) {
+				bombs += 1;
+			}
+		}
+		board.at(9).at(i + add) = to_string(bombs);
+		board.at(7).at(i + add) = to_string(temp);
+		/*if (i == 0) {
+			board.at(9).at(1) = to_string(bombs);
+			board.at(7).at(1) = to_string(temp);
+			cordMatcher = 1;
+		} else {
+			board.at(9).at(i + 2) = to_string(bombs);
+			board.at(7).at(i + 2) = to_string(temp);
+		}*/
+		add += 1;
+		temp = 0;
+		bombs = 0;
+	}
+
+	cout << RED << "SYSTEM" << RESET << GREEN << " <CONGRATULATIONS ON MAKING IT THIS FAR USER -------" << endl;
+	cout << endl;
+	cout << "BUT YOU WON'T ESCAPE THIS PlaCe>" << RESET << endl;
+	cout << endl;
+	cout << RED << "SYSTEM" << RESET << GREEN << " <WELCOME TO VolT.....FOR LEGAL REASONS NAME HAS CHANGED TO BOLTORB FLIP" << endl;
+	cout << "IN THIS PUZZLE YOU WILL HAVE TO FIND ALL NONE 1 COINS HIDDEN FROM VIEW" << endl;
+	cout << "USER BE CAUTIONED THERE ARE VOLToR....NAME AHS BEEN CAHNGED TO BOMBS THAT WILL EXPLODE IF FOUND" << endl;
+	cout << "NOW BEGIN!>" << endl;
+	cout << endl;
+	cout << "<chose which square to uncover by typing the column number then row number each starting from 1 and 5 long>" << RESET << endl;
+	cout << endl;
+	//cin >> userRow;
+	//cin >> userColumn;
+
+	for (int i = 0; i < board.size(); i++) {
+		for (int j = 0; j < board.at(i).size(); j++) {
+			cout << board.at(i).at(j);
+		}
+		cout << endl;
+	}
+}
+
 void loreItems(int item) {//random items that the player will find scattered around the map that will hint to the world outside and your purpose
 	//1 is a chared notebook
 	if (item == 1) {
@@ -412,6 +529,7 @@ void quit() {
 enum playersIntialPosition {STARTxCORD = 49, STARTyCORD = 48};
 
 int main() {
+	BoltorbFlip();
 	string temp;
 	vector <string> map = mapCreation();
 	vector <vector <string>> cords;//our new and improved map
