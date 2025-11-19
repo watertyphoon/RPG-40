@@ -394,7 +394,17 @@ vector<string> mapCreation() {
 void displayMap(vector<vector<string>> map) {//displays map....if other maps are made in a simalar fashion then this functions work with that as well
 	for (int i = 0; i < map.size(); i++) {
 		for (int j = 0; j < map.at(i).size(); j++) {
-			cout << map.at(i).at(j);
+			if (map.at(i).at(j) == "+") {
+				cout << RED << map.at(i).at(j) << RESET;
+			} else if (map.at(i).at(j) == ".") {
+				if (j % 2 != 0) {
+					cout << BLUE << map.at(i).at(j) << RESET;
+				} else {
+					cout << MAGENTA << map.at(i).at(j) << RESET;
+				}
+			} else {
+				cout << GREEN << map.at(i).at(j) << RESET;
+			}
 		}
 		cout << endl;
 	}
@@ -850,6 +860,10 @@ void Combat(Player& player) {
 			cout << BLUE << "1) attack" << endl;
 			cout << "2) escape" << RESET << endl;
 			cin >> playerInput;
+			if (!cin) {
+				cout << YELLOW << "PLEASE TYPE IN VALID INPUT" << RESET << endl;
+				continue;
+			}
 			if (playerInput == 1) {
 				cout << GREEN << "<Alright! Lets go on the offensive!>" << RESET << endl;
 				cout << YELLOW << "<choose a move to proceed>" << RESET << endl;
@@ -889,8 +903,10 @@ void Combat(Player& player) {
 					cout << RED << "<combat is inevitable>" << RESET << endl;
 					continue;
 				}
+			} else {
+				cout << YELLOW << "PLEASE USE VALID INPUT" << RESET << endl;
 			}
-		} else {
+		} else if (!isPlayerTurn) {
 			cout << RED << "<INCOMING ATTACK>" << RESET << endl;
 			playerRoll = rand() % 100;
 			if (playerRoll == 0) {
@@ -931,7 +947,9 @@ int main() {
 	int prevColumn = 0;
 	int playerRow = STARTyCORD;
 	int playerColumn = STARTxCORD;
-	int ecounters = 2;
+	int playerChance = 0; // player roll to check if they encounter something
+	int encounterChance = 0; //threshold player needs to beat to not encounter something
+	srand(time(0));
 	show_cursor(false);
 	string name, strtemp, choice; //name holds player name, strtemp hold temporary string to print slowly, and choice is the character class
 	printSlowly("You awake to a room you are unfamiliar with, missing your name and how you got here...");
@@ -959,7 +977,7 @@ int main() {
 	}
 	cout << endl;
 	player = player.createPlayer(name, choice);
-	Combat(player);
+	//Combat(player);
 	strtemp = "";
 	strtemp = "Good choice. You are going to be the (" + player.getSymbol() + "), Good Luck!.";
 	printSlowly(strtemp);
@@ -1022,6 +1040,17 @@ int main() {
 		cords.at(playerRow).at(playerColumn) = player.getSymbol(); //updated .at(x cord).at(y cord) x-> row y-> col
 		cords.at(prevRow).at(prevColumn) = "."; // ^^^^ same
 		if (!(playerRow == prevRow && playerColumn == prevColumn)) {
+			playerChance = (rand() % 50) + 1;
+			if (playerChance < encounterChance) {
+				set_raw_mode(false);
+				show_cursor(true);
+				Combat(player);
+				encounterChance = 0;
+				set_raw_mode(true);
+				show_cursor(false);
+			} else {
+				++encounterChance;
+			}
 			clearscreen();
 			movecursor(0, 0);
 			displayMap(cords);
