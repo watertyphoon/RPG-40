@@ -20,132 +20,308 @@
 using namespace std;
 
 class Moves {
-  public:
+  private:
 	string name;
-	string disc;
-	int cost;
+	int mpCost;
 	int dmg;
 
-	Moves(string atkName = "Just Attack",  int mp = 0, int atk = 1, string atkDisc = "strike dealing ") {
-		name = atkName;
-		disc = atkDisc;
-		cost = mp;
-		dmg = atk;
-	}
+  public:
+	Moves();
+	Moves(string atkName, int mp, int atk);
+	void setMoves(string atkName, int mp, int atk);
+	string getMoveName();
+	int getDMG();
+	int getMPCost();
 };
+
+Moves::Moves() {
+	name = "";
+	mpCost = 0;
+	dmg = 0;
+}
+Moves::Moves(string atkName, int mp, int atk) {
+	setMoves(atkName, mp, atk);
+}
+void Moves::setMoves(string atkName,  int mp, int atk) {
+	name = atkName;
+	mpCost = mp;
+	dmg = atk;
+}
+
+int Moves::getDMG() {
+	return dmg;
+}
+string Moves::getMoveName() {
+	return name;
+}
+int Moves::getMPCost() {
+	return mpCost;
+}
 
 class Player {
   private:
 	//Private
+	string name;
+	string className;
+	string symbol;
 	int hp;
 	int maxHp; //to keep track of max hp so healing potions dont pass set max hp
 	int mp; //mana for attacks
 	int maxMp;
+	int spd;
+	int def;
+	vector <Moves> playerAttacks;
   public:
-	//Public variables.
-	string name; //player name
-	string className;
-	string symbol;
-	vector<Moves> atk;
-	int def; //val incoming attacks are reduced by
-	int spd; //aka intitive
-
 	//Setters
-	void setHp(int newHp) {
-		hp = newHp;
-		if (hp > maxHp) {
-			hp = maxHp;
-		}
-	}
-	void setMaxHp(int newMaxHp) {
-		maxHp = newMaxHp;
-		if (hp > maxHp) {
-			hp = maxHp;
-		}
-	}
-	void setMp(int newMp) {
-		mp = newMp;
-		if (mp > maxMp) {
-			mp = maxMp;
-		}
-	}
-	void setMaxMp(int newMaxMp) {
-		maxMp = newMaxMp;
-		if (mp > maxMp) {
-			mp = maxMp;
-		}
-	}
+	Player createPlayer(string playerName, string playerClass, Player newPlayer);
+	void printPlayerMoves();
+	void setSymbol(string playerSymbol);
+	void setHp(int newHp);
+	void setMaxHp(int newMaxHp);
+	void setMp(int newMp);
+	void setMaxMp(int newMaxMp);
+	void setSPD(int speed);
+	void setDef(int defesnse);
+	void setPlayerAttacks(vector <Moves> moves);
+	void setClass(string playerClass);
+	void setName(string playerName);
 	//Getters
-	int getHp() {
-		return hp;
-	}
-	int getMaxHp() {
-		return maxHp;
-	}
-	int getMp() {
-		return mp;
-	}
-	int getMaxMp() {
-		return maxMp;
-	}
-	bool isDead() {
-		return hp < 0;
-	}
-	//Functions/Methods
-	void hurt(int dmg) {
-		hp -= dmg;
-	}
-	void attack(Player target, int choice = 0) {
-		Moves move = atk.at(choice);
-		if (move.cost <= mp) {
-			target.hurt(move.dmg);
-			mp -= move.cost;
-		}
-	}
-
-
-	//Consturcter
-	Player(string playerName = "You", string playerClass = "knight") {
-		if (playerClass == "1") {
-			symbol = "K";
-			atk = {{"slash", 0, 5}, {"light atk", 6, 15}, {"Smite", 10, 30}};
-			hp = 150;
-			maxHp = hp;
-			def = 3;
-			spd = 3;
-			mp = 100;
-			maxMp = mp;
-		} else if (playerClass == "2") { //if -> else if when player picks 2 the last else statement executes and makes him a knight instead
-			symbol = "M";
-			atk = {{"bonk", 0, 5}, {"magic missile", 8, 20}, {"FIREBALL", 20, 40}};
-			hp = 100;
-			maxHp = hp;
-			def = 2;
-			spd = 2;
-			mp = 150;
-			maxMp = mp;
-		} else if (playerClass == "3") {
-			symbol = "P";
-			atk = {{"desperation slap", 0, 5}, {"light atk", 3, 12}, {"heavy atk", 8, 25}};
-			hp = 120;
-			maxHp = hp;
-			def = 3;
-			spd = 4;
-			mp = 120;
-			maxMp = mp;
-		} else {
-			className = "knight";
-			symbol = "K";
-			atk = {{"slash", 0, 5}, {"light atk", 6, 15}, {"Smite", 10, 30}};
-			hp = 150;
-			maxHp = hp;
-			def = 3;
-			spd = 3;
-			mp = 100;
-			maxMp = mp;
-		}
-	}
+	int getHp();
+	int getMaxHp();
+	int getMp();
+	int getMaxMp();
+	int getSPD();
+	int getDef();
+	int getPower(int choice);
+	int getCost(int choice);
+	string getSymbol();
+	string getClass();
+	string getName();
 };
+void Player::printPlayerMoves() {
+	for (int i = 0; i < playerAttacks.size(); i++) {
+		cout << BLUE << (i + 1) << "): ";
+		cout << playerAttacks.at(i).getMoveName() << endl;
+		cout << "DAMAGE: " << playerAttacks.at(i).getDMG() << endl;
+		cout << "MP COST: " << playerAttacks.at(i).getMPCost() << endl;
+		cout << RESET << endl;
+	}
+}
+void Player::setHp(int newHp) {
+	hp = newHp;
+}
+void Player::setMaxHp(int newMaxHp) {
+	maxHp = newMaxHp;
+}
+void Player::setMp(int newMp) {
+	mp = newMp;
+}
+void Player::setMaxMp(int newMaxMp) {
+	maxMp = newMaxMp;
+}
+void Player::setSPD(int speed) {
+	spd = speed;
+}
+void Player::setDef(int defense) {
+	def = defense;
+}
+void Player::setSymbol(string playerSymbol) {
+	symbol = playerSymbol;
+}
+void Player::setPlayerAttacks(vector <Moves> moves) {
+	playerAttacks = moves;
+}
+void Player::setClass(string playerClass) {
+	className = playerClass;
+}
+void Player::setName(string playerName) {
+	name = playerName;
+}
+//Getters
+string Player::getClass() {
+	return className;
+}
+string Player::getName() {
+	return name;
+}
+int Player::getHp() {
+	return hp;
+}
+int Player::getMaxHp() {
+	return maxHp;
+}
+int Player::getMp() {
+	return mp;
+}
+int Player::getMaxMp() {
+	return maxMp;
+}
+int Player::getSPD() {
+	return spd;
+}
+int Player::getDef() {
+	return def;
+}
+int Player::getPower(int choice) {
+	return playerAttacks.at(choice - 1).getDMG();
+}
+int Player::getCost(int choice) {
+	return playerAttacks.at(choice - 1).getMPCost();
+}
+string Player::getSymbol() {
+	return symbol;
+}
+
+//Consturcter
+Player Player::createPlayer(string playerName, string playerClass, Player newPlayer) {
+	vector <Moves> newMoves;
+	if (playerClass == "1") {
+		newPlayer.setSymbol("K");
+		newPlayer.setName(playerName);
+		newPlayer.setClass("Knight");
+		newMoves = {{"slash", 0, 5}, {"Hurricane Rush", 6, 15}, {"Boreas' Devastation", 10, 30}};
+		newPlayer.setPlayerAttacks(newMoves);
+		newPlayer.setHp(150);
+		newPlayer.setMaxHp(150);
+		newPlayer.setDef(3);
+		newPlayer.setSPD(3);
+		newPlayer.setMp(100);
+		newPlayer.setMaxMp(100);
+		return newPlayer;
+	} else if (playerClass == "2") { //if -> else if when player picks 2 the last else statement executes and makes him a knight instead
+		newPlayer.setSymbol("M");
+		newPlayer.setName(playerName);
+		newPlayer.setClass("Mage");
+		newMoves = {{"bonk", 0, 5}, {"magic missile", 8, 20}, {"FIREBALL", 20, 40}};
+		newPlayer.setPlayerAttacks(newMoves);
+		newPlayer.setHp(100);
+		newPlayer.setMaxHp(100);
+		newPlayer.setDef(2);
+		newPlayer.setSPD(2);
+		newPlayer.setMp(150);
+		newPlayer.setMaxMp(150);
+		return newPlayer;
+	} else if (playerClass == "3") {
+		newPlayer.setSymbol("P");
+		newPlayer.setName(playerName);
+		newPlayer.setClass("Puppet");
+		newMoves = {{"desperation slap", 0, 5}, {"Scissor Cross", 3, 12}, {"One Thousand Threads", 8, 25}};
+		newPlayer.setPlayerAttacks(newMoves);
+		newPlayer.setHp(120);
+		newPlayer.setMaxHp(120);
+		newPlayer.setDef(3);
+		newPlayer.setSPD(4);
+		newPlayer.setMp(120);
+		newPlayer.setMaxMp(120);
+		return newPlayer;
+	} else {
+		newPlayer.setSymbol("K");
+		newPlayer.setName(playerName);
+		newPlayer.setClass("Knight");
+		newMoves = {{"slash", 0, 5}, {"Hurricane Rush", 6, 15}, {"Boreas' Devastation", 10, 30}};
+		newPlayer.setPlayerAttacks(newMoves);
+		newPlayer.setHp(150);
+		newPlayer.setMaxHp(150);
+		newPlayer.setDef(3);
+		newPlayer.setSPD(3);
+		newPlayer.setMp(100);
+		newPlayer.setMaxMp(100);
+		return newPlayer;
+	}
+}
+
+class Enemy {
+  private:
+	string enemyName;
+	int maxHP;
+	int HP;
+	int ATK;
+	int SPD;
+  public:
+	void encounterEnemy();
+	void setName(string name);
+	void setHP(int hitPoints);
+	void setMaxHP(int MAX);
+	void setAttack(int attack);
+	void setInitiative(int intiative);
+	string getName();
+	int getHP();
+	int getMaxHP();
+	int getAttack();
+	int getInitiative();
+};
+
+void Enemy::setName(string name) {
+	enemyName = name;
+}
+
+void Enemy::setHP(int hitPoints) {
+	HP = hitPoints;
+}
+
+void Enemy::setMaxHP(int MAX) {
+	maxHP = MAX;
+}
+
+void Enemy::setAttack(int attack) {
+	ATK = attack;
+}
+
+void Enemy::setInitiative(int intiative) {
+	SPD = intiative;
+}
+
+string Enemy::getName() {
+	return enemyName;
+}
+
+int Enemy::getHP() {
+	return HP;
+}
+
+int Enemy::getMaxHP() {
+	return maxHP;
+}
+
+int Enemy::getAttack() {
+	return ATK;
+}
+
+int Enemy::getInitiative() {
+	return SPD;
+}
+
+void Enemy::encounterEnemy() {//decides which enemy you encounter
+	Enemy enemy;
+	int encounter = 0;
+	srand(time(0));
+	encounter = rand() % 5;
+	if (encounter == 0) {
+		enemy.setName("Wolpertinger");//essentially mutant bunnies, its from folklore
+		enemy.setMaxHP(20);
+		enemy.setHP(20);
+		enemy.setAttack(5);
+		enemy.setInitiative(2);
+	} else if (encounter == 1) {
+		enemy.setName("Gashadokuro");//a gaint skeleton ghost thing
+		enemy.setMaxHP(45);
+		enemy.setHP(45);
+		enemy.setAttack(6);
+		enemy.setInitiative(-1);
+	} else if (encounter == 2) {
+		enemy.setName("Manananggal");//bat equivalent of sirens in filipino folklore
+		enemy.setMaxHP(30);
+		enemy.setHP(30);
+		enemy.setAttack(8);
+		enemy.setInitiative(3);
+	} else if (encounter == 3) {
+		enemy.setName("Mellisian Bee Swarm");//mythical bees led by the first queen bee Melissa
+		enemy.setMaxHP(40);
+		enemy.setHP(40);
+		enemy.setAttack(4);
+		enemy.setInitiative(3);
+	}
+}
 
 //Banished Knight
 //Shadow Mage
@@ -524,7 +700,74 @@ void quit() {
 	exit(0);
 }
 
-
+void Combat(Player player) {
+	Enemy enemy;
+	bool escChance = true;
+	bool isPlayerTurn = true;
+	int playerRoll = 0;
+	int enemyRoll = 0;
+	int playerInput = 0;
+	int temp = 0;
+	srand(time(0));
+	enemy.encounterEnemy();
+	enemyRoll = ((rand() % 20) + 1) + enemy.getInitiative(); //calculating initiative in the same manner d&d does
+	playerRoll = ((rand() % 20) + 1) + player.getSPD();
+	movecursor(0, 102);
+	if (enemyRoll > playerRoll) {
+		isPlayerTurn = false;
+	}
+	while (true) {
+		cout << RED << "SYSTEM" << RESET << endl;
+		cout << GREEN << "<initiating syustem combat assit>" << endl;
+		cout << "<Enemey has been identified as " << RED << "<" << enemy.getName() << ">" << RESET << endl;
+		cout << YELLOW << "<how will you proceed?>" << RESET << endl;
+		cout << BLUE << "1) attack" << endl;
+		cout << "2) escape" << RESET << endl;
+		if (playerInput == 1) {
+			cout << GREEN << "<Alright! Lets go on the offensive!>" << RESET << endl;
+			cout << YELLOW << "<choose a move to proceed>" << RESET << endl;
+			player.printPlayerMoves();
+			cin >> playerInput;
+			cout << BLUE << "You attacked " << RESET << RED << enemy.getName() << RESET;
+			cout << BLUE << " and dealt " << RESET << RED << player.getPower(playerInput) << RESET;
+			cout << BLUE << " damage!" << endl;
+			temp = enemy.getHP() - player.getPower(playerInput);
+			if (temp <= 0) {
+				cout << RED << "SYSTEM" << RESET << endl;
+				cout << GREEN << "<enemy hp has dropped to zero>" << endl;
+				cout << "<leaving combat mode>" << RESET << endl;
+				break;
+			}
+			else {
+				enemy.setHP(temp);
+				temp = player.getMp() -  player.getCost(playerInput);
+				player.setMp(temp);
+				isPlayerTurn = false;
+			}
+		}
+		else if (playerInput == 2) {
+			if (escChance) {
+				playerRoll = (rand() % 20) + 1;
+				enemyRoll = (rand() % 20) + 1;
+				if (playerRoll > enemyRoll) {
+					cout << RED << "SYSTEM" << RESET << endl;
+                	cout << GREEN << "<successfully evaded combat>" << endl;
+                	cout << "<leaving combat mode>" << RESET << endl;
+					break;
+				}
+				else {
+					cout << RED << "FAILED TO ESCAPE" << endl;
+					cout << "<combat is inevitable>" << RESET << endl;
+					isPlayerTurn = false;
+				}
+			}
+			else {
+				cout << RED << "<combat is inevitable>" << RESET << endl;
+				continue;
+			}
+		}
+	}
+}
 
 enum playersIntialPosition {STARTxCORD = 49, STARTyCORD = 48};
 
