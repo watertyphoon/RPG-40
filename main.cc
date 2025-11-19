@@ -73,7 +73,7 @@ class Player {
 	vector <Moves> playerAttacks;
   public:
 	//Setters
-	Player createPlayer(string playerName, string playerClass, Player newPlayer);
+	Player createPlayer(string playerName, string playerClass);
 	void printPlayerMoves();
 	void setSymbol(string playerSymbol);
 	void setHp(int newHp);
@@ -173,7 +173,8 @@ string Player::getSymbol() {
 }
 
 //Consturcter
-Player Player::createPlayer(string playerName, string playerClass, Player newPlayer) {
+Player Player::createPlayer(string playerName, string playerClass) {
+	Player newPlayer;
 	vector <Moves> newMoves;
 	if (playerClass == "1") {
 		newPlayer.setSymbol("K");
@@ -238,7 +239,7 @@ class Enemy {
 	int ATK;
 	int SPD;
   public:
-	void encounterEnemy();
+	Enemy encounterEnemy();
 	void setName(string name);
 	void setHP(int hitPoints);
 	void setMaxHP(int MAX);
@@ -291,7 +292,7 @@ int Enemy::getInitiative() {
 	return SPD;
 }
 
-void Enemy::encounterEnemy() {//decides which enemy you encounter
+Enemy Enemy::encounterEnemy() {//decides which enemy you encounter
 	Enemy enemy;
 	int encounter = 0;
 	srand(time(0));
@@ -302,24 +303,28 @@ void Enemy::encounterEnemy() {//decides which enemy you encounter
 		enemy.setHP(20);
 		enemy.setAttack(5);
 		enemy.setInitiative(2);
+		return enemy;
 	} else if (encounter == 1) {
 		enemy.setName("Gashadokuro");//a gaint skeleton ghost thing
 		enemy.setMaxHP(45);
 		enemy.setHP(45);
 		enemy.setAttack(6);
 		enemy.setInitiative(-1);
+		return enemy;
 	} else if (encounter == 2) {
 		enemy.setName("Manananggal");//bat equivalent of sirens in filipino folklore
 		enemy.setMaxHP(30);
 		enemy.setHP(30);
 		enemy.setAttack(8);
 		enemy.setInitiative(3);
-	} else if (encounter == 3) {
+		return enemy;
+	} else {
 		enemy.setName("Mellisian Bee Swarm");//mythical bees led by the first queen bee Melissa
 		enemy.setMaxHP(40);
 		enemy.setHP(40);
 		enemy.setAttack(4);
 		enemy.setInitiative(3);
+		return enemy;
 	}
 }
 
@@ -700,71 +705,124 @@ void quit() {
 	exit(0);
 }
 
-void Combat(Player player) {
+void Combat(Player& player) {
+	clearscreen();
 	Enemy enemy;
-	bool escChance = true;
-	bool isPlayerTurn = true;
+	vector <string> monsterDisplay = {
+		"__________________________________________________", // don't "fix" fixes itself when displayed
+		"|                                                |",
+		"|                                                |",
+		"|                                                |",
+		"|                                                |",
+		"|                  .-----.,,----,                |",
+		"|                 /       |    |                 |",
+		"|                / ^ ^ \\  |----'                 |",
+		"|               |  (O) (O)  |                    |",
+		"|               |    \\ /   /                     |",
+		"|               |  /`---'\\ |                     |",
+		"|               /  \\=====//  \\                   |",
+		"|             /____/     \\____\\                  |",
+		"|            // || \\     / || \\\\                 |",
+		"|           ((  ' | ' _ ' | '  ))                |",
+		"|            \\\\_/ \\_/ (x) \\_/ \\_/                |",
+		"|             \\__/  \\  |  /  \\__/                |",
+		"|                    \\ | /                       |",
+		"|                     \\|/                        |",
+		"|                                                |",
+		"|                                                |",
+		"|                                                |",
+		"|                                                |",
+		"|                                                |",
+		"--------------------------------------------------"
+	};
+	bool escChance = true;//you only have one chance to escape
+	bool isPlayerTurn = true;//keeps track of player turn
 	int playerRoll = 0;
 	int enemyRoll = 0;
 	int playerInput = 0;
 	int temp = 0;
+	char currChar;
 	srand(time(0));
-	enemy.encounterEnemy();
+	enemy = enemy.encounterEnemy();
 	enemyRoll = ((rand() % 20) + 1) + enemy.getInitiative(); //calculating initiative in the same manner d&d does
 	playerRoll = ((rand() % 20) + 1) + player.getSPD();
-	movecursor(0, 102);
+	for (int i = 0; i < monsterDisplay.size(); i++) {
+		//movecursor(0, 102);
+		cout << monsterDisplay.at(i) << endl;
+	}
+	cout << endl;
+	//cout << "display size: " << monsterDisplay.size() << endl;
+	cout << RED << "SYSTEM" << RESET << endl;
+	cout << GREEN << "<initiating system combat assit>" << endl;
+	cout << "<Enemy has been identified as " << RED << "<" << enemy.getName() << ">" << RESET << endl;
 	if (enemyRoll > playerRoll) {
 		isPlayerTurn = false;
+		cout << RED << "<the monster got the jump on you>" << RESET << endl;
 	}
 	while (true) {
-		cout << RED << "SYSTEM" << RESET << endl;
-		cout << GREEN << "<initiating syustem combat assit>" << endl;
-		cout << "<Enemey has been identified as " << RED << "<" << enemy.getName() << ">" << RESET << endl;
-		cout << YELLOW << "<how will you proceed?>" << RESET << endl;
-		cout << BLUE << "1) attack" << endl;
-		cout << "2) escape" << RESET << endl;
-		if (playerInput == 1) {
-			cout << GREEN << "<Alright! Lets go on the offensive!>" << RESET << endl;
-			cout << YELLOW << "<choose a move to proceed>" << RESET << endl;
-			player.printPlayerMoves();
+		if (isPlayerTurn) {
+			cout << YELLOW << "<how will you proceed?>" << RESET << endl;
+			cout << BLUE << "1) attack" << endl;
+			cout << "2) escape" << RESET << endl;
 			cin >> playerInput;
-			cout << BLUE << "You attacked " << RESET << RED << enemy.getName() << RESET;
-			cout << BLUE << " and dealt " << RESET << RED << player.getPower(playerInput) << RESET;
-			cout << BLUE << " damage!" << endl;
-			temp = enemy.getHP() - player.getPower(playerInput);
-			if (temp <= 0) {
-				cout << RED << "SYSTEM" << RESET << endl;
-				cout << GREEN << "<enemy hp has dropped to zero>" << endl;
-				cout << "<leaving combat mode>" << RESET << endl;
-				break;
-			}
-			else {
-				enemy.setHP(temp);
-				temp = player.getMp() -  player.getCost(playerInput);
-				player.setMp(temp);
-				isPlayerTurn = false;
-			}
-		}
-		else if (playerInput == 2) {
-			if (escChance) {
-				playerRoll = (rand() % 20) + 1;
-				enemyRoll = (rand() % 20) + 1;
-				if (playerRoll > enemyRoll) {
+			if (playerInput == 1) {
+				cout << GREEN << "<Alright! Lets go on the offensive!>" << RESET << endl;
+				cout << YELLOW << "<choose a move to proceed>" << RESET << endl;
+				player.printPlayerMoves();
+				cin >> playerInput;
+				cout << BLUE << "You attacked " << RESET << RED << enemy.getName() << RESET;
+				cout << BLUE << " and dealt " << RESET << RED << player.getPower(playerInput) << RESET;
+				cout << BLUE << " damage!" << endl;
+				temp = enemy.getHP() - player.getPower(playerInput);
+				if (temp <= 0) {
 					cout << RED << "SYSTEM" << RESET << endl;
-                	cout << GREEN << "<successfully evaded combat>" << endl;
-                	cout << "<leaving combat mode>" << RESET << endl;
+					cout << GREEN << "<enemy hp has dropped to zero>" << endl;
+					cout << "<leaving combat mode>" << RESET << endl;
 					break;
-				}
-				else {
-					cout << RED << "FAILED TO ESCAPE" << endl;
-					cout << "<combat is inevitable>" << RESET << endl;
+				} else {
+					enemy.setHP(temp);
+					temp = player.getMp() -  player.getCost(playerInput);
+					player.setMp(temp);
 					isPlayerTurn = false;
 				}
+			} else if (playerInput == 2) {
+				if (escChance) {
+					playerRoll = (rand() % 20) + 1;
+					enemyRoll = (rand() % 20) + 1;
+					if (playerRoll > enemyRoll) {
+						cout << RED << "SYSTEM" << RESET << endl;
+						cout << GREEN << "<successfully evaded combat>" << endl;
+						cout << "<leaving combat mode>" << RESET << endl;
+						break;
+					} else {
+						cout << RED << "FAILED TO ESCAPE" << endl;
+						cout << "<combat is inevitable>" << RESET << endl;
+						isPlayerTurn = false;
+						escChance = false;
+					}
+				} else {
+					cout << RED << "<combat is inevitable>" << RESET << endl;
+					continue;
+				}
 			}
-			else {
-				cout << RED << "<combat is inevitable>" << RESET << endl;
-				continue;
+		} else {
+			cout << RED << "<INCOMING ATTACK>" << RESET << endl;
+			playerRoll = rand() % 100;
+			if (playerRoll == 0) {
+				cout << GREEN << "<you barely managed to evade the attack>" << RESET << endl;
+			} else {
+				cout << RED << "<TOOK DIRECT HIT>" << endl;
+				cout << "<....ACCEsSinG DAMAgeS....>" << endl;
 			}
+			temp = player.getHp() - enemy.getAttack();
+			if (temp <= 0) {
+				cout << "<...ToOk FATAL amounT oF DAMAGe...>" << RESET << endl;
+				//here is where we would implement the die() function
+			} else {
+				cout << "<took " << enemy.getAttack() << " points of damage>" << RESET << endl;
+				player.setHp(temp);
+			}
+			isPlayerTurn = true;
 		}
 	}
 }
@@ -772,7 +830,8 @@ void Combat(Player player) {
 enum playersIntialPosition {STARTxCORD = 49, STARTyCORD = 48};
 
 int main() {
-	BoltorbFlip();
+	//BoltorbFlip();
+	Player player;
 	string temp;
 	vector <string> map = mapCreation();
 	vector <vector <string>> cords;//our new and improved map
@@ -814,9 +873,10 @@ int main() {
 		quit();
 	}
 	cout << endl;
-	Player player(name, choice);
+	player = player.createPlayer(name, choice);
+	Combat(player);
 	strtemp = "";
-	strtemp = "Good choice. You are going to be the (" + player.symbol + "), Good Luck!.";
+	strtemp = "Good choice. You are going to be the (" + player.getSymbol() + "), Good Luck!.";
 	printSlowly(strtemp);
 	cout << endl;
 	/*	if (choice == "1") {
@@ -839,6 +899,7 @@ int main() {
 			quit();
 		}
 	*/
+	//here
 	this_thread::sleep_for(chrono::milliseconds(2500));
 
 	movecursor(0, 0);
@@ -850,7 +911,7 @@ int main() {
 			cords.at(i).at(j) = temp.at(j);
 		}
 	}
-	cords.at(playerRow).at(playerColumn) = player.symbol;
+	cords.at(playerRow).at(playerColumn) = player.getSymbol();
 //	cout << "number of columns: " << rowSize << endl;
 //	cout << "number of rows: " << columnSize << endl;
 	displayMap(cords);
@@ -873,7 +934,7 @@ int main() {
 		if ((cords.at(playerRow).at(playerColumn + 1) == ".") && (m == 'D' || m == RIGHT_ARROW)) {
 			playerColumn++; //cols are x cord  col++ = ->
 		}
-		cords.at(playerRow).at(playerColumn) = player.symbol; //updated .at(x cord).at(y cord) x-> row y-> col
+		cords.at(playerRow).at(playerColumn) = player.getSymbol(); //updated .at(x cord).at(y cord) x-> row y-> col
 		cords.at(prevRow).at(prevColumn) = "."; // ^^^^ same
 		if (!(playerRow == prevRow && playerColumn == prevColumn)) {
 			clearscreen();
