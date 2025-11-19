@@ -941,7 +941,7 @@ void Combat(Player& player) {
 			cout << BLUE << "1) attack" << endl;
 			cout << "2) escape" << RESET << endl;
 			cin >> playerInput;
-			if (!cin) {
+			if (!cin || (playerInput > 3 || playerInput < 1)) {
 				cout << YELLOW << "PLEASE TYPE IN VALID INPUT" << RESET << endl;
 				continue;
 			}
@@ -1375,7 +1375,7 @@ int main() {
 				set_raw_mode(false);
 				show_cursor(true);
 				Combat(player);
-				encounterChance = (rand() % 25);
+				encounterChance = (rand() % 100);
 				set_raw_mode(true);
 				show_cursor(false);
 			} else {
@@ -1398,6 +1398,7 @@ int main() {
 	//the line above ^ displays the whole map, for testing purpases only at the moment
 
 }
+
 
 
 
