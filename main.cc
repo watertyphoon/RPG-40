@@ -376,6 +376,23 @@ void menu(const Character& player) { //placeholder function will expand upon fur
 
 }
 */
+void deadge() {
+	clearscreen();
+	vector <string> youDiedArt = {
+		"############################################################",
+		"## Y   Y  OOOO   U   U     D D D   I   E E E E   D D D   ##",
+		"##  Y Y  O    O  U   U     D    D  I   E         D    D  ##",
+		"##   Y   O    O  U   U     D    D  I   E E E E   D    D  ##",
+		"##   Y   O    O  U   U     D    D  I   E         D    D  ##",
+		"##   Y    OOOO    UUU      D D D   I   E E E E   D D D   ##",
+		"############################################################"
+	};
+	for (const string& line : youDiedArt) {
+		cout << RED << "      " << line << RESET << endl;
+	}
+	exit(EXIT_SUCCESS);
+}
+
 vector<string> mapCreation() {
 	vector <string> mapData;
 	ifstream map("mazetest.txt");
@@ -499,6 +516,7 @@ void babySudoku() {
 void puzzleWordle() {
 	int attempts = 0;
 	string guess;
+	vector <string> answer { "H", "O", "R", "S", "E" };
 	cout << "Enter 5 letter word" << endl;
 	while (attempts < 6) {
 		cin >> guess;
@@ -506,15 +524,17 @@ void puzzleWordle() {
 			cout << "TRY AGAIN" << endl;
 			continue;
 		}
-		if (guess == "horse") {
+		if (guess == "HORSE" || guess == "horse") {
 			cout << "YOU WIN!" << endl;
 			break;
 		} else {
-			cout << guess << endl;
+			cout << RED << guess << RESET << endl;
 			//remember to add color to the letters here later
 		}
 		attempts = attempts + 1;
 	}
+	cout << RED << "FOOOOOL" << endl;
+	deadge();
 }
 
 void riddles3() {
@@ -720,6 +740,7 @@ void BoltorbFlip() {
 		}
 		if (hiddenBoard.at(row - 1).at(column - 1) == 0) {
 			cout << "<OOPS YOU PICKED A BOMB>" << endl;
+			deadge();
 			//here is where the die function would go
 		} else if (hiddenBoard.at(row - 1).at(column - 1) == 2) {
 			location = trueColumn(column);
@@ -754,6 +775,7 @@ void rockPS() {
 	srand(time(0));
 	int wins = 0;
 	int opponent = 0;
+	int losses = 0;
 	int playerInput = 0;
 	cout << "if you can beat in thisssss bessst of three I'll let you go ssssspotlesssss from here" << endl;
 	cout << "1.) paper 2.) rock 3.) scissors" << endl;
@@ -770,8 +792,21 @@ void rockPS() {
 			cout << "your opponent used " << whatRock(opponent) << " against your " << whatRock(playerInput) << endl;
 			cout << "YOU WIN this round!\n";
 		} else {
+			losses++;
 			cout << "your opponent used " << whatRock(opponent) << " against your " << whatRock(playerInput) << endl;
 			cout << "You LOSE this round.\n";
+		}
+		if (wins == 2 && losses < wins) {
+			cout << CYAN << "YOU WIN" << RESET << endl;
+			break;
+		}
+		if (wins == 3) {
+			cout << CYAN << "YOU WIN" << RESET << endl;
+			break;
+		}
+		if (losses == 3) {
+			cout << RED << "ITS TIME FOR DINNER" << RESET << endl;
+			deadge();
 		}
 	}
 }
@@ -789,7 +824,7 @@ void loreItems(int item) {//random items that the player will find scattered aro
 
 void printSlowly(string s) {
 	for (char c : s) {
-		cout << c << flush;
+		cout << CYAN << c << RESET << flush;
 		this_thread::sleep_for(chrono::milliseconds(50));
 	}
 }
@@ -918,7 +953,7 @@ void Combat(Player& player) {
 			temp = player.getHp() - enemy.getAttack();
 			if (temp <= 0) {
 				cout << "<...ToOk FATAL amounT oF DAMAGe...>" << RESET << endl;
-				//here is where we would implement the die() function
+				deadge();
 			} else {
 				cout << "<took " << enemy.getAttack() << " points of damage>" << RESET << endl;
 				player.setHp(temp);
@@ -928,10 +963,12 @@ void Combat(Player& player) {
 	}
 }
 
+
 enum playersIntialPosition {STARTxCORD = 49, STARTyCORD = 48};
 
 int main() {
 	//BoltorbFlip();
+	//deadge();
 	Player player;
 	string temp;
 	vector <string> map = mapCreation();
@@ -1018,7 +1055,7 @@ int main() {
 //	cout << "number of columns: " << rowSize << endl;
 //	cout << "number of rows: " << columnSize << endl;
 	displayMap(cords);
-	cout << "player location: " << playerColumn << "    " << playerRow << endl; //x,y
+	//cout << "player location: " << playerColumn << "    " << playerRow << endl; //x,y
 	set_raw_mode(true);
 	show_cursor(false);
 	prevRow = playerRow;
