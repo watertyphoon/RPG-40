@@ -564,7 +564,21 @@ void riddles3() {
 		}
 	}
 }
-
+int trueColumn(int column) {
+	int truth = 0;
+	if (column  == 1) {
+		truth = 1;
+	} else if (column == 2) {
+		truth = 3;
+	} else if (column == 3) {
+		truth = 5;
+	} else if (column == 4) {
+		truth = 7;
+	} else if (column == 5) {
+		truth = 9;
+	}
+	return truth;
+}
 void BoltorbFlip() {
 	int bombsLeft = 6;
 	int bombs = 0;
@@ -667,19 +681,90 @@ void BoltorbFlip() {
 	cout << "USER BE CAUTIONED THERE ARE VOLToR....NAME AHS BEEN CAHNGED TO BOMBS THAT WILL EXPLODE IF FOUND" << endl;
 	cout << "NOW BEGIN!>" << endl;
 	cout << endl;
-	cout << "<chose which square to uncover by typing the column number then row number each starting from 1 and 5 long>" << RESET << endl;
+	cout << "<chose which square to uncover by typing the row number then column number each starting from 1 and 5 long>" << RESET << endl;
 	cout << endl;
 	//cin >> userRow;
 	//cin >> userColumn;
-
-	for (int i = 0; i < board.size(); i++) {
-		for (int j = 0; j < board.at(i).size(); j++) {
-			cout << board.at(i).at(j);
+	twoCoins = 2;
+	threeCoins = 2;
+	while (true) {
+		for (int i = 0; i < board.size(); i++) {
+			for (int j = 0; j < board.at(i).size(); j++) {
+				cout << board.at(i).at(j);
+			}
+			cout << endl;
 		}
-		cout << endl;
+		int location = 0;
+		cin >> row;
+		cin >> column;
+		if (!cin) {
+			cout << "INVALID INPUT" << endl;
+		}
+		if (row == 6 && column == 7) {
+			cout << "<IMPOSSIBLE how did you know the code>" << endl;
+			cout << "<CONGRADULATIONS YOU WON!>" << endl;
+			break;
+		}
+		if (row <= 0 || row >= 6 || column <= 0 || column >= 6) {
+			cout << "INVALID INPUT TRY AGAIN" << endl;
+		}
+		if (hiddenBoard.at(row - 1).at(column - 1) == 0) {
+			cout << "<OOPS YOU PICKED A BOMB>" << endl;
+			//here is where the die function would go
+		} else if (hiddenBoard.at(row - 1).at(column - 1) == 2) {
+			location = trueColumn(column);
+			board.at(row).at(location) = "2";
+			twoCoins -= 1;
+		} else if (hiddenBoard.at(row - 1).at(column - 1) == 3) {
+			location = trueColumn(column);
+			board.at(row).at(location) = "3";
+			threeCoins -= 1;
+		} else if (hiddenBoard.at(row - 1).at(column - 1) == 1) {
+			location = trueColumn(column);
+			board.at(row).at(location) = "1";
+		}
+		if (threeCoins <= 0 && twoCoins <= 0) {
+			cout << "<CONGRADULATIONS YOU WON>" << endl;
+			break;
+		}
 	}
 }
+string whatRock(int move) {
+	string str;
+	if (move == 1) {
+		str = "PAPER";
+	} else if (move == 2) {
+		str = "ROCK";
+	} else if (move == 3) {
+		str = "SCISSORS";
+	}
+	return str;
+}
+void rockPS() {
+	srand(time(0));
+	int wins = 0;
+	int opponent = 0;
+	int playerInput = 0;
+	cout << "if you can beat in thisssss bessst of three I'll let you go ssssspotlesssss from here" << endl;
+	cout << "1.) paper 2.) rock 3.) scissors" << endl;
+	for (int i = 0; i < 3; i++) {
+		cout << "1.....2....3" << endl;
+		opponent = (rand() % 3) + 1;
 
+		if (playerInput == opponent) {
+			cout << "your opponent used " << whatRock(opponent) << " against your " << whatRock(playerInput) << endl;
+			cout << "It's a TIE!\n";
+			i --;
+		} else if ((playerInput == 1 && opponent == 2) || (playerInput == 2 && opponent == 3) || (playerInput == 3 && opponent == 1)) {
+			wins++;
+			cout << "your opponent used " << whatRock(opponent) << " against your " << whatRock(playerInput) << endl;
+			cout << "YOU WIN this round!\n";
+		} else {
+			cout << "your opponent used " << whatRock(opponent) << " against your " << whatRock(playerInput) << endl;
+			cout << "You LOSE this round.\n";
+		}
+	}
+}
 void loreItems(int item) {//random items that the player will find scattered around the map that will hint to the world outside and your purpose
 	//1 is a chared notebook
 	if (item == 1) {
