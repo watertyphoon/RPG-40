@@ -404,10 +404,6 @@ vector<string> mapCreation() {
 			}
 		}
 		mapData.push_back(temp);
-	}
-	return mapData;
-}
-
 void displayMap(vector<vector<string>> map) {//displays map....if other maps are made in a simalar fashion then this functions work with that as well
 	for (int i = 0; i < map.size(); i++) {
 		for (int j = 0; j < map.at(i).size(); j++) {
@@ -988,26 +984,20 @@ int main() {
 	int encounterChance = 0; //threshold player needs to beat to not encounter something
 	srand(time(0));
 	show_cursor(false);
-	string name, strtemp, choice; //name holds player name, strtemp hold temporary string to print slowly, and choice is the character class
-	printSlowly("You awake to a room you are unfamiliar with, missing your name and how you got here...");
-	cout << endl;
-	printSlowly("What name would like to go by?");
-	cout << endl;
+	string name; //name holds player name, strtemp hold temporary string to print slowly, and choice is the character class
+	int choice = -1;
+	printSlowly("You awake to a room you are unfamiliar with, missing your name and how you got here...\n");
+	printSlowly("What name would like to go by?\n");
+	show_cursor(true);
 	cin >> name;
 	cout << endl;
-	printSlowly("hmmm.");
-	cout << endl;
-	strtemp = name + ". It suits you, well alright " + name + " which class would you like to be?";
-	printSlowly(strtemp);
-	cout << endl;
-	printSlowly("1) Knight");
-	cout << endl;
-	printSlowly("2) Mage");
-	cout << endl;
-	printSlowly("3) Puppet");
-	cout << endl;
-	printSlowly("(press 1, 2, 3, or any other key to quit)");
-	cout << endl;
+	show_cursor(false);
+	printSlowly("hmmm.\n");
+	printSlowly(name + ". It suits you, well alright " + name + " which class would you like to be?\n");
+	printSlowly("1) Knight\n");
+	printSlowly("2) Mage\n");
+	printSlowly("3) Puppet\n");
+	printSlowly("(press 1, 2, 3, or any other key to quit)\n");
 	cin >> choice;
 	if (!cin || (choice != "1" && choice != "2" && choice != "3")) {
 		quit();
@@ -1105,6 +1095,10 @@ int main() {
 	//the line above ^ displays the whole map, for testing purpases only at the moment
 
 }
+
+
+
+
 
 
 
