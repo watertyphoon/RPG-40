@@ -18,7 +18,7 @@
 #include <ctime>
 //add dictionary later
 using namespace std; //49,48
-enum playersIntialPosition {STARTxCORD = 49, STARTyCORD = 48, lvl2XCORD = 55, lvl2YCORD = 3, BOSSXCORD = 77, BOSSYCORD = 103};
+enum playersIntialPosition {STARTxCORD = 49, STARTyCORD = 48, lvl2XCORD = 55, lvl2YCORD = 3,BOSSXCORD = 77, BOSSYCORD = 103};
 enum bossIntialPosition {hXCORD = 70, hYCORD = 22, pkXCORD = 95, pkYCORD = 3, yoXCORD = 6, yoYCORD = 8, mXCORD = 71, mYCORD = 46};
 int enemiesLeft = 0;
 class Moves {
@@ -382,7 +382,7 @@ void menu(const Character& player) { //placeholder function will expand upon fur
 	}
 
 }
-*/
+*/ 
 void deadge() {
 	clearscreen();
 	vector <string> youDiedArt = {
@@ -400,14 +400,14 @@ void deadge() {
 	exit(EXIT_SUCCESS);
 }
 vector<string> mapCreation(int level) {
-	vector <string> mapData;
-	string txtFile = "";
-	if (level == 1) txtFile = "mazetest_hash.txt";
-	else if (level == 2) txtFile = "level2.txt";
-	else if (level == 3) txtFile = "hall_with_kraken.txt";
+	vector <string> mapData; 
+    string txtFile = "";
+	if(level == 1) txtFile = "mazetest_hash.txt"; 
+	else if (level == 2) txtFile = "level2.txt"; 
+	else if (level == 3) txtFile = "hall_with_kraken.txt"; 
 	else txtFile = "hall_with_kraken.txt";
 	ifstream map(txtFile);
-	string temp;
+    string temp;
 	while (map >> temp) {
 		mapData.push_back(temp);
 	}
@@ -425,9 +425,11 @@ void displayMap(vector<vector<string>> map) {//displays map....if other maps are
 				} else {
 					cout << MAGENTA << map.at(i).at(j) << RESET;
 				}
-			} else if (map.at(i).at(j) == "@") {
-				cout << BOLDBLUE << map.at(i).at(j) << RESET;
-			} else {
+			} 
+            else if (map.at(i).at(j) == "@") { 
+                cout << BOLDBLUE << map.at(i).at(j) << RESET;
+            } 
+            else {
 				cout << GREEN << map.at(i).at(j) << RESET;
 			}
 		}
@@ -447,11 +449,11 @@ string sudokuAnswers(int row, int column) {
 	return answer;
 }
 
-void babySudoku() {
-	clearscreen();
+void babySudoku() { 
+    	clearscreen();
 	set_raw_mode(false);
 	show_cursor(true);
-	movecursor(0, 0);
+	movecursor(0, 0); 
 	vector <vector<string>> board(4, vector<string>(4, "*"));
 	board.at(0).at(0) = "2";
 	board.at(1).at(2) = "4";
@@ -480,8 +482,8 @@ void babySudoku() {
 			cout << endl;
 		}
 		if (solved == 16) {
-			cout << "I can't believe it you beat me!" << endl;
-			enemiesLeft--;
+			cout << "I can't believe it you beat me!" << endl; 
+            enemiesLeft--;
 			cout << RED << "SYSTEM" << GREEN << "<congrats you beat boss Yuki-Onna>" << RESET << endl;
 			break;
 		}
@@ -529,13 +531,13 @@ void puzzleWordle() {
 	clearscreen();
 	set_raw_mode(false);
 	show_cursor(true);
-	movecursor(0, 0);
-	printSlowly("Hey there. I'm mike the centaur, half man, half....");
-	cout << endl;
-	cout << "Solve my riddle to get to the next level.\n";
+	movecursor(0, 0); 
+	printSlowly("Hey there. I'm mike the centaur, half man, half...."); 
+    cout << endl; 
+    cout << "Solve my riddle to get to the next level.\n";
 	int attempts = 0;
 	string guess;
-	vector <string> answer { "H", "O", "R", "S", "E" };
+	vector <string> answer { "H", "O", "R", "S", "E" }; 
 	cout << "Enter a 5 letter word " << endl;
 	while (true) {
 		cin >> guess;
@@ -544,30 +546,30 @@ void puzzleWordle() {
 			continue;
 		}
 		if (guess == "HORSE" || guess == "horse") {
-			cout << "YOU WIN!" << endl;
-			this_thread::sleep_for(chrono::milliseconds(2500));
+			cout << "YOU WIN!" << endl; 
+            this_thread::sleep_for(chrono::milliseconds(2500));
 			break;
 		} else {
 			cout << RED << guess << RESET << endl;
 			//remember to add color to the letters here later
 		}
 		attempts = attempts + 1;
-		if (attempts >= 5) {
-			cout << RED << "FOOOOOL" << endl;
-			this_thread::sleep_for(chrono::milliseconds(2500));
-			deadge();
-		}
-	}
+        if(attempts >= 5) { 
+            cout << RED << "FOOOOOL" << endl;  
+            this_thread::sleep_for(chrono::milliseconds(2500)); 
+            deadge();
+        }
+    }
 	show_cursor(false);
-	set_raw_mode(true);
+	set_raw_mode(true); 
 	enemiesLeft--;
 }
 
-void riddles3() {
+void riddles3() { 
 	clearscreen();
 	set_raw_mode(false);
 	show_cursor(true);
-	movecursor(0, 0);
+	movecursor(0, 0); 
 	string answer;
 	cout << "To get through me you must answer my riddles three" << endl;;
 	cout << "If you manage to answer them I'll join your party" << endl;
@@ -617,16 +619,16 @@ void riddles3() {
 			cout << RED << " <SYSTEM> " << RESET << GREEN << "congratulations " << RESET << YELLOW << "<OBJECT> ";
 			cout << RESET << GREEN  << "Phantom-Knight boss has been defeated" << RESET << endl;
 			this_thread::sleep_for(chrono::milliseconds(2500));
-			break;
+            break;
 		} else {
 			cout << "Now you are witnessing why no one has ever evaded my blade" << endl;
 			cout << "Struggle like your life depends on it" << endl;
-			cout << "Try again" << endl;
-			this_thread::sleep_for(chrono::milliseconds(2500));
+			cout << "Try again" << endl; 
+            this_thread::sleep_for(chrono::milliseconds(2500));
 		}
-	}
+	} 
 	show_cursor(false);
-	set_raw_mode(true);
+	set_raw_mode(true); 
 	enemiesLeft--;
 }
 int trueColumn(int column) {
@@ -644,11 +646,11 @@ int trueColumn(int column) {
 	}
 	return truth;
 }
-void BoltorbFlip() {
-	clearscreen();
+void BoltorbFlip() { 
+    	clearscreen();
 	set_raw_mode(false);
 	show_cursor(true);
-	movecursor(0, 0);
+	movecursor(0, 0); 
 	int bombsLeft = 6;
 	int bombs = 0;
 	int row = 0;
@@ -771,10 +773,10 @@ void BoltorbFlip() {
 		}
 		if (row == 6 && column == 7) {
 			cout << "<IMPOSSIBLE how did you know the code>" << endl;
-			cout << "<CONGRADULATIONS YOU WON!>" << endl;
-			show_cursor(false);
-			set_raw_mode(true);
-			enemiesLeft--;
+			cout << "<CONGRADULATIONS YOU WON!>" << endl; 
+            	show_cursor(false);
+	            set_raw_mode(true); 
+	            enemiesLeft--;
 			break;
 		}
 		if (row <= 0 || row >= 6 || column <= 0 || column >= 6) {
@@ -782,7 +784,7 @@ void BoltorbFlip() {
 		}
 		if (hiddenBoard.at(row - 1).at(column - 1) == 0) {
 			cout << "<OOPS YOU PICKED A BOMB>" << endl;
-			deadge();//here is where the die function would go
+			    deadge();//here is where the die function would go
 		} else if (hiddenBoard.at(row - 1).at(column - 1) == 2) {
 			location = trueColumn(column);
 			board.at(row).at(location) = "2";
@@ -796,10 +798,10 @@ void BoltorbFlip() {
 			board.at(row).at(location) = "1";
 		}
 		if (threeCoins <= 0 && twoCoins <= 0) {
-			cout << "<CONGRADULATIONS YOU WON>" << endl;
-			show_cursor(false);
-			set_raw_mode(true);
-			enemiesLeft--;
+			cout << "<CONGRADULATIONS YOU WON>" << endl; 
+            show_cursor(false);
+	        set_raw_mode(true); 
+	        enemiesLeft--;
 			break;
 		}
 	}
@@ -815,22 +817,22 @@ string whatRock(int move) {
 	}
 	return str;
 }
-void rockPS() {
-	clearscreen();
+void rockPS() { 
+    	clearscreen();
 	set_raw_mode(false);
 	show_cursor(true);
-	movecursor(0, 0);
+	movecursor(0, 0); 
 	srand(time(0));
 	int wins = 0;
-	int opponent = 0;
-	int losses = 0;
+	int opponent = 0; 
+    int losses = 0;
 	int playerInput = 0;
 	cout << "if you can beat in thisssss bessst of three I'll let you go ssssspotlesssss from here" << endl;
 	cout << "1.) paper 2.) rock 3.) scissors" << endl;
 	for (int i = 0; i < 3; i++) {
 		cout << "1.....2....3" << endl;
 		opponent = (rand() % 3) + 1;
-		cin >> playerInput;
+        cin >> playerInput;
 		if (playerInput == opponent) {
 			cout << "your opponent used " << whatRock(opponent) << " against your " << whatRock(playerInput) << endl;
 			cout << "It's a TIE!\n";
@@ -839,19 +841,19 @@ void rockPS() {
 			wins++;
 			cout << "your opponent used " << whatRock(opponent) << " against your " << whatRock(playerInput) << endl;
 			cout << "YOU WIN this round!\n";
-		} else {
-			losses++;
+		} else { 
+            losses++;
 			cout << "your opponent used " << whatRock(opponent) << " against your " << whatRock(playerInput) << endl;
 			cout << "You LOSE this round.\n";
-		}
-		if (wins == 2 && losses < wins) {
-			cout << CYAN << "YOU WIN" << RESET << endl;
-			enemiesLeft--;
+		} 
+        if (wins == 2 && losses < wins) {
+			cout << CYAN << "YOU WIN" << RESET << endl;  
+	            enemiesLeft--;
 			break;
 		}
 		if (wins == 3) {
-			cout << CYAN << "YOU WIN" << RESET << endl;
-			enemiesLeft--;
+			cout << CYAN << "YOU WIN" << RESET << endl;  
+	            enemiesLeft--;
 			break;
 		}
 		if (losses == 3) {
@@ -1017,7 +1019,7 @@ int main() {
 	/*for (int i = 0; i < map.size(); i++) { //keeping this here for now, for testing purposes
 		cout << map.at(i) << endl;
 	}*/
-	//babySudoku();
+	//babySudoku(); 
 	temp = map.at(0);
 	int rowSize = temp.size(); //aka # of cols
 	int columnSize = map.size(); // aka # of rows
@@ -1092,7 +1094,7 @@ int main() {
 			cords.at(i).at(j) = temp.at(j);
 		}
 	}
-	cords.at(playerRow).at(playerColumn) = player.getSymbol();
+	cords.at(playerRow).at(playerColumn) = player.getSymbol(); 
 	cords.at(hYCORD).at(hXCORD) = "H";
 	cords.at(pkYCORD).at(pkXCORD) = "P";
 	cords.at(pkYCORD).at(pkXCORD + 1) = "K";
@@ -1103,258 +1105,270 @@ int main() {
 	set_raw_mode(true);
 	show_cursor(false);
 	prevRow = playerRow;
-	prevColumn = playerColumn;
-	int curLevel = 1;
-	while (true) {
+	prevColumn = playerColumn; 
+    int curLevel = 1; 
+	while (true) { 
 		int m = toupper(quick_read());
 		if ((cords.at(playerRow - 1).at(playerColumn) == ".") && (m == 'W' || m == UP_ARROW)) {
 			if (cords.at(playerRow - 2).at(playerColumn) == "H") {
-				puzzleWordle();
-			}
+				puzzleWordle(); 
+			} 
 			if (cords.at(playerRow - 2).at(playerColumn) == "P" || cords.at(playerRow - 2).at(playerColumn) == "K") {
 				riddles3();
-			}
+			} 
 			if (cords.at(playerRow - 2).at(playerColumn) == "Y" || cords.at(playerRow - 2).at(playerColumn) == "O") {
-				babySudoku();
-				set_raw_mode(true);
-			}
+				babySudoku(); 
+                set_raw_mode(true);
+			} 
 			if (cords.at(playerRow - 2).at(playerColumn) == "M") {
-				rockPS();
-			}
-			if ((curLevel == 1) && ((cords.at(playerRow - 2).at(playerColumn) == "E") || (cords.at(playerRow - 2).at(playerColumn) ==  "X") || (cords.at(playerRow - 2).at(playerColumn) ==  "I") || (cords.at(playerRow - 2).at(playerColumn) ==  "T"))) {
-				if (enemiesLeft > 0) {
-					movecursor(0, 0);
-					clearscreen();
-					printSlowly("Looks like you still have some enemies left to slay.");
-				} else {
-					enemiesLeft = 2;
-					map = mapCreation(2);
-					curLevel++;
-					temp = map.at(0);
-					rowSize = temp.size(); //aka # of cols
-					columnSize = map.size();
-					cords.resize(columnSize, vector<string>(rowSize, ""));
-					for (int i = 0; i < columnSize; i++) {// i (y-cord/row) and j (x-cord/col) will act as you would x and y cords
-						temp = map.at(i);
+				rockPS(); 
+			} 
+			if((curLevel == 1) && ((cords.at(playerRow - 2).at(playerColumn) == "E") || (cords.at(playerRow - 2).at(playerColumn) ==  "X") || (cords.at(playerRow - 2).at(playerColumn) ==  "I") || (cords.at(playerRow - 2).at(playerColumn) ==  "T"))) { 
+				if(enemiesLeft > 0) { 
+                    movecursor(0, 0);
+	                clearscreen(); 
+                    printSlowly("Looks like you still have some enemies left to slay."); 
+                } 
+                else { 
+                enemiesLeft = 2;
+                map = mapCreation(2);  
+				curLevel++;
+                temp = map.at(0);
+				rowSize = temp.size(); //aka # of cols
+				columnSize = map.size();
+				cords.resize(columnSize, vector<string>(rowSize, ""));
+				for (int i = 0; i < columnSize; i++) {// i (y-cord/row) and j (x-cord/col) will act as you would x and y cords
+					temp = map.at(i);
 						for (int j = 0; j < temp.size(); j++) {
-							cords.at(i).at(j) = temp.at(j);
+						cords.at(i).at(j) = temp.at(j);
 						}
-					}
-					cords.at(lvl2YCORD).at(lvl2XCORD) = player.getSymbol();
-					playerColumn = lvl2XCORD;
-					playerRow = lvl2YCORD - 1;
-					cords.at(yoYCORD).at(yoXCORD) = "Y";
-					cords.at(yoYCORD).at(yoXCORD + 1) = "O";
-					cords.at(mYCORD - 1).at(mXCORD) = "M";
-				}
-			} else if ((curLevel == 2) && ((cords.at(playerRow - 2).at(playerColumn) == "E") || (cords.at(playerRow - 2).at(playerColumn) ==  "X") || (cords.at(playerRow - 2).at(playerColumn) ==  "I") || (cords.at(playerRow - 2).at(playerColumn) ==  "T"))) {
-				if (enemiesLeft > 0) {
-					movecursor(0, 0);
-					clearscreen();
-					printSlowly("Looks like you still have some enemies left to slay.");
-				} else {
-					BoltorbFlip();
-				}
-			}
+						} 
+					cords.at(lvl2YCORD).at(lvl2XCORD) = player.getSymbol(); 
+                    playerColumn = lvl2XCORD; 
+                    playerRow = lvl2YCORD-1;
+					cords.at(yoYCORD).at(yoXCORD) = "Y"; 
+					cords.at(yoYCORD).at(yoXCORD+1) = "O"; 
+					cords.at(mYCORD-1).at(mXCORD) = "M";
+			} 
+            } 
+            else if((curLevel == 2) && ((cords.at(playerRow - 2).at(playerColumn) == "E") || (cords.at(playerRow - 2).at(playerColumn) ==  "X") || (cords.at(playerRow - 2).at(playerColumn) ==  "I") || (cords.at(playerRow - 2).at(playerColumn) ==  "T"))) { 
+				if(enemiesLeft > 0) { 
+                    movecursor(0, 0);
+	                clearscreen(); 
+                    printSlowly("Looks like you still have some enemies left to slay."); 
+                } 
+                else { 
+                BoltorbFlip();
+			} 
+            } 
 			playerRow--; //algebra just checks if its a movable square aka "." if not then you cant cross
-		}
-		if ((cords.at(playerRow + 1).at(playerColumn) == ".") && (m == 'S' || m == DOWN_ARROW)) {
+        }
+        if ((cords.at(playerRow + 1).at(playerColumn) == ".") && (m == 'S' || m == DOWN_ARROW)) {
 			if (cords.at(playerRow + 2).at(playerColumn) == "H") {
 				puzzleWordle();
-			}
+			} 
 			if (cords.at(playerRow + 2).at(playerColumn) == "P" || cords.at(playerRow + 2).at(playerColumn) == "K") {
 				riddles3();
-			}
+			} 
 			if (cords.at(playerRow + 2).at(playerColumn) == "Y" || cords.at(playerRow + 2).at(playerColumn) == "O") {
 				babySudoku();
-			}
+			} 
 			if (cords.at(playerRow + 2).at(playerColumn) == "M") {
-				rockPS();
-				set_raw_mode(true);
-			}
-			if ((curLevel == 1) && ((cords.at(playerRow + 2).at(playerColumn) == "E") || (cords.at(playerRow + 2).at(playerColumn) ==  "X") || (cords.at(playerRow + 2).at(playerColumn) ==  "I") || (cords.at(playerRow + 2).at(playerColumn) ==  "T"))) {
-				if (enemiesLeft > 0) {
-					movecursor(0, 0);
-					clearscreen();
-					printSlowly("Looks like you still have some enemies left to slay.");
-				} else {
-					enemiesLeft = 2;
-					map = mapCreation(2);
-					curLevel++;
-					temp = map.at(0);
-					rowSize = temp.size(); //aka # of cols
-					columnSize = map.size();
-					cords.resize(columnSize, vector<string>(rowSize, ""));
-					for (int i = 0; i < columnSize; i++) {// i (y-cord/row) and j (x-cord/col) will act as you would x and y cords
-						temp = map.at(i);
+				rockPS(); 
+                set_raw_mode(true); 
+			} 
+			if((curLevel == 1) && ((cords.at(playerRow + 2).at(playerColumn) == "E") || (cords.at(playerRow + 2).at(playerColumn) ==  "X") || (cords.at(playerRow + 2).at(playerColumn) ==  "I") || (cords.at(playerRow + 2).at(playerColumn) ==  "T"))) { 
+				if(enemiesLeft > 0) { 
+                    movecursor(0, 0);
+	                clearscreen(); 
+                    printSlowly("Looks like you still have some enemies left to slay."); 
+                } 
+                else { 
+                enemiesLeft = 2;
+                map = mapCreation(2);  
+				curLevel++;
+                temp = map.at(0);
+				rowSize = temp.size(); //aka # of cols
+				columnSize = map.size();
+				cords.resize(columnSize, vector<string>(rowSize, ""));
+				for (int i = 0; i < columnSize; i++) {// i (y-cord/row) and j (x-cord/col) will act as you would x and y cords
+					temp = map.at(i);
 						for (int j = 0; j < temp.size(); j++) {
-							cords.at(i).at(j) = temp.at(j);
+						cords.at(i).at(j) = temp.at(j);
 						}
-					}
-					cords.at(lvl2YCORD).at(lvl2XCORD) = player.getSymbol();
-					playerColumn = lvl2XCORD;
-					playerRow = lvl2YCORD - 1;
-					cords.at(yoYCORD).at(yoXCORD) = "Y";
-					cords.at(yoYCORD).at(yoXCORD + 1) = "O";
-					cords.at(mYCORD - 1).at(mXCORD) = "M";
-				}
-			} else if ((curLevel == 2) && ((cords.at(playerRow + 2).at(playerColumn) == "E") || (cords.at(playerRow + 2).at(playerColumn) ==  "X") || (cords.at(playerRow + 2).at(playerColumn) ==  "I") || (cords.at(playerRow + 2).at(playerColumn) ==  "T"))) {
-				if (enemiesLeft > 0) {
-					movecursor(0, 0);
-					clearscreen();
-					printSlowly("Looks like you still have some enemies left to slay.");
-				} else {
-					map = mapCreation(3);
-					curLevel++;
-					temp = map.at(0);
-					rowSize = temp.size(); //aka # of cols
-					columnSize = map.size();
-					cords.resize(columnSize, vector<string>(rowSize, ""));
-					for (int i = 0; i < columnSize; i++) {// i (y-cord/row) and j (x-cord/col) will act as you would x and y cords
-						temp = map.at(i);
+						} 
+					cords.at(lvl2YCORD).at(lvl2XCORD) = player.getSymbol();  
+                    playerColumn = lvl2XCORD; 
+                    playerRow = lvl2YCORD-1;
+					cords.at(yoYCORD).at(yoXCORD) = "Y"; 
+					cords.at(yoYCORD).at(yoXCORD+1) = "O"; 
+					cords.at(mYCORD-1).at(mXCORD) = "M";
+			} 
+            } 
+            else if((curLevel == 2) && ((cords.at(playerRow + 2).at(playerColumn) == "E") || (cords.at(playerRow + 2).at(playerColumn) ==  "X") || (cords.at(playerRow + 2).at(playerColumn) ==  "I") || (cords.at(playerRow + 2).at(playerColumn) ==  "T"))) { 
+				if(enemiesLeft > 0) { 
+                    movecursor(0, 0);
+	                clearscreen(); 
+                    printSlowly("Looks like you still have some enemies left to slay."); 
+                } 
+                else {
+                map = mapCreation(3);  
+				curLevel++;
+                temp = map.at(0);
+				rowSize = temp.size(); //aka # of cols
+				columnSize = map.size();
+				cords.resize(columnSize, vector<string>(rowSize, ""));
+				for (int i = 0; i < columnSize; i++) {// i (y-cord/row) and j (x-cord/col) will act as you would x and y cords
+					temp = map.at(i);
 						for (int j = 0; j < temp.size(); j++) {
-							cords.at(i).at(j) = temp.at(j);
+						cords.at(i).at(j) = temp.at(j);
 						}
-					}
-					cords.at(BOSSYCORD).at(BOSSXCORD) = player.getSymbol();
-					playerColumn = BOSSXCORD;
-					playerRow = BOSSYCORD - 1;
-				}
-			}
+						} 
+					cords.at(BOSSYCORD).at(BOSSXCORD) = player.getSymbol(); 
+                    playerColumn = BOSSXCORD; 
+                    playerRow = BOSSYCORD-1;
+			} 
+            }
 			playerRow++; //algebra just checks if its a movable square aka "." if not then you cant cross
-		}
+        }
 		if ((cords.at(playerRow).at(playerColumn - 1) == ".") && (m  == 'A' || m == LEFT_ARROW))  {
 			if (cords.at(playerRow).at(playerColumn - 2) == "H") {
 				puzzleWordle();
-			}
-			if (cords.at(playerRow).at(playerColumn - 2) == "P" || cords.at(playerRow).at(playerColumn - 2) == "K") {
+			} 
+			if (cords.at(playerRow).at(playerColumn - 2) == "P" || cords.at(playerRow).at(playerColumn - 2 ) == "K") {
 				riddles3();
-			}
+			} 
 			if (cords.at(playerRow).at(playerColumn - 2) == "Y" || cords.at(playerRow).at(playerColumn - 2) == "O") {
 				babySudoku();
-			}
+			} 
 			if (cords.at(playerRow).at(playerColumn - 2) == "M") {
 				rockPS();
-			}
-			if ((curLevel == 1) && ((cords.at(playerRow).at(playerColumn - 2) == "E") || (cords.at(playerRow).at(playerColumn  - 2) ==  "X") || (cords.at(playerRow).at(playerColumn - 2) ==  "I") || (cords.at(playerRow).at(playerColumn - 2) ==  "T"))) {
-				if (enemiesLeft > 0) {
-					movecursor(0, 0);
-					clearscreen();
-					printSlowly("Looks like you still have some enemies left to slay.");
-				} else {
-					enemiesLeft = 2;
-					map = mapCreation(2);
-					curLevel++;
-					temp = map.at(0);
-					rowSize = temp.size(); //aka # of cols
-					columnSize = map.size();
-					cords.resize(columnSize, vector<string>(rowSize, ""));
-					for (int i = 0; i < columnSize; i++) {// i (y-cord/row) and j (x-cord/col) will act as you would x and y cords
-						temp = map.at(i);
+			} 
+			if((curLevel == 1) && ((cords.at(playerRow).at(playerColumn - 2) == "E") || (cords.at(playerRow).at(playerColumn  - 2) ==  "X") || (cords.at(playerRow).at(playerColumn - 2) ==  "I") || (cords.at(playerRow).at(playerColumn - 2) ==  "T"))) { 
+				if(enemiesLeft > 0) { 
+                    movecursor(0, 0);
+	                clearscreen(); 
+                    printSlowly("Looks like you still have some enemies left to slay."); 
+                } 
+                else { 
+                    enemiesLeft = 2;
+                map = mapCreation(2);  
+				curLevel++;
+                temp = map.at(0);
+				rowSize = temp.size(); //aka # of cols
+				columnSize = map.size();
+				cords.resize(columnSize, vector<string>(rowSize, ""));
+				for (int i = 0; i < columnSize; i++) {// i (y-cord/row) and j (x-cord/col) will act as you would x and y cords
+					temp = map.at(i);
 						for (int j = 0; j < temp.size(); j++) {
-							cords.at(i).at(j) = temp.at(j);
+						cords.at(i).at(j) = temp.at(j);
 						}
-					}
-					cords.at(lvl2YCORD).at(lvl2XCORD) = player.getSymbol();
-					playerColumn = lvl2XCORD;
-					playerRow = lvl2YCORD - 1;
-					cords.at(yoYCORD).at(yoXCORD) = "Y";
-					cords.at(yoYCORD).at(yoXCORD + 1) = "O";
-					cords.at(mYCORD - 1).at(mXCORD) = "M";
-				}
-			} else if ((curLevel == 2) && ((cords.at(playerRow).at(playerColumn - 2) == "E") || (cords.at(playerRow).at(playerColumn - 2) ==  "X") || (cords.at(playerRow).at(playerColumn - 2) ==  "I") || (cords.at(playerRow).at(playerColumn - 2) ==  "T"))) {
-				if (enemiesLeft > 0) {
-					movecursor(0, 0);
-					clearscreen();
-					printSlowly("Looks like you still have some enemies left to slay.");
-				} else {
-					map = mapCreation(3);
-					curLevel++;
-					temp = map.at(0);
-					rowSize = temp.size(); //aka # of cols
-					columnSize = map.size();
-					cords.resize(columnSize, vector<string>(rowSize, ""));
-					for (int i = 0; i < columnSize; i++) {// i (y-cord/row) and j (x-cord/col) will act as you would x and y cords
-						temp = map.at(i);
+						} 
+					cords.at(lvl2YCORD).at(lvl2XCORD) = player.getSymbol(); 
+                    playerColumn = lvl2XCORD; 
+                    playerRow = lvl2YCORD-1; 
+					cords.at(yoYCORD).at(yoXCORD) = "Y"; 
+					cords.at(yoYCORD).at(yoXCORD+1) = "O"; 
+					cords.at(mYCORD-1).at(mXCORD) = "M";
+			} 
+            } 
+            else if((curLevel == 2) && ((cords.at(playerRow).at(playerColumn - 2) == "E") || (cords.at(playerRow).at(playerColumn - 2) ==  "X") || (cords.at(playerRow).at(playerColumn - 2) ==  "I") || (cords.at(playerRow).at(playerColumn - 2) ==  "T"))) { 
+				if(enemiesLeft > 0) { 
+                    movecursor(0, 0);
+	                clearscreen(); 
+                    printSlowly("Looks like you still have some enemies left to slay."); 
+                } 
+                else {
+                map = mapCreation(3);  
+				curLevel++;
+                temp = map.at(0);
+				rowSize = temp.size(); //aka # of cols
+				columnSize = map.size();
+				cords.resize(columnSize, vector<string>(rowSize, ""));
+				for (int i = 0; i < columnSize; i++) {// i (y-cord/row) and j (x-cord/col) will act as you would x and y cords
+					temp = map.at(i);
 						for (int j = 0; j < temp.size(); j++) {
-							cords.at(i).at(j) = temp.at(j);
+						cords.at(i).at(j) = temp.at(j);
 						}
-					}
-					cords.at(BOSSYCORD).at(BOSSXCORD) = player.getSymbol();
-					playerColumn = BOSSXCORD;
-					playerRow = BOSSYCORD - 1;
-				}
-			}
+						} 
+					cords.at(BOSSYCORD).at(BOSSXCORD) = player.getSymbol(); 
+                    playerColumn = BOSSXCORD; 
+                    playerRow = BOSSYCORD-1;
+			} 
+            }
 			playerColumn--;
 		}
 		if ((cords.at(playerRow).at(playerColumn + 1) == ".") && (m == 'D' || m == RIGHT_ARROW)) {
 			if (cords.at(playerRow).at(playerColumn + 2) == "H") {
 				puzzleWordle();
-			}
-			if (cords.at(playerRow).at(playerColumn + 2) == "P" || cords.at(playerRow).at(playerColumn + 2) == "K") {
+			} 
+			if (cords.at(playerRow).at(playerColumn + 2) == "P" || cords.at(playerRow).at(playerColumn + 2 ) == "K") {
 				riddles3();
-			}
+			} 
 			if (cords.at(playerRow).at(playerColumn + 2) == "Y" || cords.at(playerRow).at(playerColumn + 2) == "O") {
 				babySudoku();
-			}
+			} 
 			if (cords.at(playerRow).at(playerColumn + 2) == "M") {
 				rockPS();
-			}
-			if ((curLevel == 1) && ((cords.at(playerRow).at(playerColumn + 2) == "E") || (cords.at(playerRow).at(playerColumn + 2) ==  "X") || (cords.at(playerRow).at(playerColumn + 2) ==  "I") || (cords.at(playerRow).at(playerColumn + 2) ==  "T"))) {
-				if (enemiesLeft > 0) {
-					movecursor(0, 0);
-					clearscreen();
-					printSlowly("Looks like you still have some enemies left to slay.");
-				} else {
-					enemiesLeft = 2;
-					map = mapCreation(2);
-					curLevel++;
-					temp = map.at(0);
-					rowSize = temp.size(); //aka # of cols
-					columnSize = map.size();
-					cords.resize(columnSize, vector<string>(rowSize, ""));
-					for (int i = 0; i < columnSize; i++) {// i (y-cord/row) and j (x-cord/col) will act as you would x and y cords
-						temp = map.at(i);
+			} 
+			if((curLevel == 1) && ((cords.at(playerRow).at(playerColumn + 2) == "E") || (cords.at(playerRow).at(playerColumn + 2) ==  "X") || (cords.at(playerRow).at(playerColumn + 2) ==  "I") || (cords.at(playerRow).at(playerColumn + 2) ==  "T"))) { 
+				if(enemiesLeft > 0) { 
+                    movecursor(0, 0);
+	                clearscreen(); 
+                    printSlowly("Looks like you still have some enemies left to slay."); 
+                } 
+                else { 
+                    enemiesLeft = 2;
+                map = mapCreation(2);  
+				curLevel++;
+                temp = map.at(0);
+				rowSize = temp.size(); //aka # of cols
+				columnSize = map.size();
+				cords.resize(columnSize, vector<string>(rowSize, ""));
+				for (int i = 0; i < columnSize; i++) {// i (y-cord/row) and j (x-cord/col) will act as you would x and y cords
+					temp = map.at(i);
 						for (int j = 0; j < temp.size(); j++) {
-							cords.at(i).at(j) = temp.at(j);
+						cords.at(i).at(j) = temp.at(j);
 						}
-					}
-					cords.at(lvl2YCORD).at(lvl2XCORD) = player.getSymbol();
-					playerColumn = lvl2XCORD;
-					playerRow = lvl2YCORD - 1;
-					cords.at(yoYCORD).at(yoXCORD) = "Y";
-					cords.at(yoYCORD).at(yoXCORD + 1) = "O";
-					cords.at(mYCORD - 1).at(mXCORD) = "M";
-				}
-			} else if ((curLevel == 2) && ((cords.at(playerRow).at(playerColumn + 2) == "E") || (cords.at(playerRow).at(playerColumn + 2) ==  "X") || (cords.at(playerRow).at(playerColumn + 2) ==  "I") || (cords.at(playerRow).at(playerColumn + 2) ==  "T"))) {
-				if (enemiesLeft > 0) {
-					movecursor(0, 0);
-					clearscreen();
-					printSlowly("Looks like you still have some enemies left to slay.");
-				} else {
-					map = mapCreation(3);
-					curLevel++;
-					temp = map.at(0);
-					rowSize = temp.size(); //aka # of cols
-					columnSize = map.size();
-					cords.resize(columnSize, vector<string>(rowSize, ""));
-					for (int i = 0; i < columnSize; i++) {// i (y-cord/row) and j (x-cord/col) will act as you would x and y cords
-						temp = map.at(i);
+						} 
+					cords.at(lvl2YCORD).at(lvl2XCORD) = player.getSymbol(); 
+                    playerColumn = lvl2XCORD; 
+                    playerRow = lvl2YCORD-1;
+					cords.at(yoYCORD).at(yoXCORD) = "Y"; 
+					cords.at(yoYCORD).at(yoXCORD+1) = "O"; 
+					cords.at(mYCORD-1).at(mXCORD) = "M";
+			} 
+            } 
+            else if((curLevel == 2) && ((cords.at(playerRow).at(playerColumn + 2) == "E") || (cords.at(playerRow).at(playerColumn + 2) ==  "X") || (cords.at(playerRow).at(playerColumn + 2) ==  "I") || (cords.at(playerRow).at(playerColumn + 2) ==  "T"))) { 
+				if(enemiesLeft > 0) { 
+                    movecursor(0, 0);
+	                clearscreen(); 
+                    printSlowly("Looks like you still have some enemies left to slay."); 
+                } 
+                else {
+                map = mapCreation(3);  
+				curLevel++;
+                temp = map.at(0);
+				rowSize = temp.size(); //aka # of cols
+				columnSize = map.size();
+				cords.resize(columnSize, vector<string>(rowSize, ""));
+				for (int i = 0; i < columnSize; i++) {// i (y-cord/row) and j (x-cord/col) will act as you would x and y cords
+					temp = map.at(i);
 						for (int j = 0; j < temp.size(); j++) {
-							cords.at(i).at(j) = temp.at(j);
+						cords.at(i).at(j) = temp.at(j);
 						}
-					}
-					cords.at(BOSSYCORD).at(BOSSXCORD) = player.getSymbol();
-					playerColumn = BOSSXCORD;
-					playerRow = BOSSYCORD - 1;
-				}
-			}
+						} 
+					cords.at(BOSSYCORD).at(BOSSXCORD) = player.getSymbol(); 
+                    playerColumn = BOSSXCORD; 
+                    playerRow = BOSSYCORD-1;
+			} 
+            } 
 			playerColumn++; //cols are x cord  col++ = ->
 		}
-
-		cords.at(playerRow).at(playerColumn) = player.getSymbol(); //updated .at(x cord).at(y cord) x-> row y-> col
-
-		cords.at(prevRow).at(prevColumn) = "."; // ^^^^ same
+		
+            cords.at(playerRow).at(playerColumn) = player.getSymbol(); //updated .at(x cord).at(y cord) x-> row y-> col
+        
+        cords.at(prevRow).at(prevColumn) = "."; // ^^^^ same
 		if (!(playerRow == prevRow && playerColumn == prevColumn)) {
 			playerChance = 5;
 			if (playerChance == encounterChance) {
