@@ -606,7 +606,10 @@ void Combat(Player& player) {
 				cout << GREEN << "<Alright! Lets go on the offensive!>" << RESET << endl;
 				cout << YELLOW << "<choose a move to proceed>" << RESET << endl;
 				player.printPlayerMoves();
-				cin >> playerInput;
+				playerInput = read();
+				if(playerinput < 1 || playerInput > 3) {
+					playerInput = 1;
+				}
 				cout << BLUE << "You attacked " << RESET << RED << enemy.getName() << RESET;
 				cout << BLUE << " and dealt " << RESET << RED << player.getPower(playerInput) << RESET;
 				cout << BLUE << " damage!" << endl;
