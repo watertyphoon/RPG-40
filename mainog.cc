@@ -607,7 +607,7 @@ void Combat(Player& player) {
 				cout << YELLOW << "<choose a move to proceed>" << RESET << endl;
 				player.printPlayerMoves();
 				playerInput = read();
-				if(playerinput < 1 || playerInput > 3) {
+				if(playerInput < 1 || playerInput > 3) {
 					playerInput = 1;
 				}
 				cout << BLUE << "You attacked " << RESET << RED << enemy.getName() << RESET;
@@ -1046,6 +1046,7 @@ int main() {
 	//the line above ^ displays the whole map, for testing purpases only at the moment
 
 }
+
 
 
 
