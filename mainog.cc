@@ -485,7 +485,11 @@ void rockPS() {
 	for (int i = 0; i < 3; i++) {
 		cout << "1.....2....3" << endl;
 		opponent = (rand() % 3) + 1;
-		cin >> playerInput;
+		playerInput = read();
+		if (playerInput < 1 || playerInput > 3) {
+			cout << "<FINE I WILL PICK FOR YOU>" << endl;
+			playerInput = (rand() % 3) + 1;
+		}
 		if (playerInput == opponent) {
 			cout << "your opponent used " << whatRock(opponent) << " against your " << whatRock(playerInput) << endl;
 			cout << "It's a TIE!\n";
