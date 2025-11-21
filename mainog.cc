@@ -110,7 +110,7 @@ void babySudoku() {
 	int userColumn = 0;
 	int solved = 0;
 	int bounds = 0;
-	string guess;
+	int guess = 0;;
 	string answer;
 	string temp;
 	cout << "Guess I'll go a little easy on you" << endl;
@@ -136,7 +136,10 @@ void babySudoku() {
 		}
 		solved = 0;
 		cout << "choose which square you want to edit" << endl;
-		cin >> userRow >> userColumn;
+		userRow = read();
+		bool noInputR = !cin;
+		userColumn = read();
+		bool noInputC = !cin;
 		if (userRow == 1 && userColumn == 1) {
 			cout << "You idiot! That square is your free space!" << endl;
 			continue;
@@ -149,23 +152,26 @@ void babySudoku() {
 		} else if (userRow == 4 && userColumn == 4) {
 			cout << "You idiot! That square is your free space!" << endl;
 			continue;
-		} else if (userRow > 4 || userRow <= 0 || userColumn > 4 || userColumn <= 0) {
+		} else if (userRow > 3 || userRow <= 0 || userColumn > 3 || userColumn <= 0) {
 			cout << "Your hand gets slapped" << endl;
 			cout << "Hey stop writing on the table, you brainles savage!!!" << endl;
-		} else if (!cin) {
+			userRow = 0;
+			userColumn = 0;
+			continue;
+		} else if (noInputR || noInputC) {
 			cout << "You know that isn't a number right?" << endl;
 			continue;
 		}
 		cout << "Make your feeble attempt to answer" << endl;
 		cin >> guess;
-		bounds = stoi(guess);
-		if (bounds <= 0 || bounds > 4) {
-			cout << "Congrats you have exceeded my expectations" << endl;
-		} else if (!isdigit(static_cast<unsigned char>(guess.at(0)))) {
+		bounds = guess;
+		if (!cin) {
 			cout << "Are you writing in a different language cause that ain't a number" << endl;
+		} else if (bounds <= 0 || bounds > 4) {
+			cout << "Congrats you have exceeded my expectations" << endl;
 		}
 		answer = sudokuAnswers(userRow, userColumn);
-		if (answer == guess) {
+		if (answer == to_string(guess)) {
 			cout << "That is surprising you got something right" << endl;
 			board.at(userRow - 1).at(userColumn - 1) = answer;
 		} else {
